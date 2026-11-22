@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Internet Speed Test — Check Ping, Download &amp; Upload | SpeedCheck Pro</title>
+<meta name="description" content="Run a free internet speed test and measure your real ping, download speed and upload speed in your browser. No sign-up, no app, no made-up numbers — every result is measured live from your own connection.">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:#f8fafc;color:#1e293b;line-height:1.7}
+a{color:#0891b2;text-decoration:none}
+a:hover{text-decoration:underline}
+header{background:#0f172a;border-bottom:3px solid #06b6d4;position:sticky;top:0;z-index:100}
+.header-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 20px;flex-wrap:wrap;gap:10px}
+.logo{font-size:23px;font-weight:800;color:#fff;letter-spacing:.3px}
+.logo span{color:#06b6d4}
+nav{display:flex;gap:4px;flex-wrap:wrap}
+nav a{color:#cbd5e1;padding:8px 12px;border-radius:6px;font-size:15px;font-weight:600}
+nav a:hover{background:#1e293b;color:#06b6d4;text-decoration:none}
+nav a.active{background:#06b6d4;color:#0f172a}
+main{max-width:900px;margin:0 auto;padding:24px 20px 40px}
+.breadcrumb{font-size:13px;color:#64748b;margin-bottom:12px}
+.breadcrumb a{color:#64748b}
+h1{font-size:31px;line-height:1.25;margin-bottom:8px;color:#0f172a}
+.meta{color:#64748b;font-size:14px;margin-bottom:20px}
+h2{font-size:23px;color:#0f172a;margin:28px 0 10px;padding-bottom:6px;border-bottom:2px solid #cffafe}
+h3{font-size:18px;color:#0f172a;margin:20px 0 8px}
+p{margin-bottom:14px}
+ul,ol{margin:0 0 14px 24px}
+li{margin-bottom:6px}
+.tip{background:#ecfeff;border-left:4px solid #06b6d4;padding:14px 16px;border-radius:0 8px 8px 0;margin:20px 0}
+.tip strong{color:#0e7490}
+.warning{background:#fefce8;border-left:4px solid #eab308;padding:14px 16px;border-radius:0 8px 8px 0;margin:20px 0}
+.warning strong{color:#854d0e}
+.error-box{background:#fef2f2;border:1px solid #fca5a5;border-left:4px solid #dc2626;padding:16px;border-radius:8px;margin:20px 0;display:none}
+.error-box strong{color:#991b1b}
+.error-box p{margin:4px 0 0}
+.error-detail{font-size:13px;color:#64748b}
+/* Speed test widget */
+.test-card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:28px 20px;margin:20px 0;text-align:center;box-shadow:0 1px 3px rgba(15,23,42,.06)}
+.gauge-wrap{position:relative;width:240px;height:240px;margin:0 auto 8px}
+.gauge-wrap svg{transform:rotate(-90deg)}
+.gauge-num{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.gauge-num .big{font-size:52px;font-weight:800;color:#0f172a;line-height:1.05}
+.gauge-num .unit{font-size:16px;color:#64748b;font-weight:600}
+.gauge-num .phase-label{font-size:14px;color:#0e7490;font-weight:700;margin-top:6px;min-height:20px}
+.steps{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:18px 0 6px}
+.step{padding:6px 14px;border-radius:999px;background:#f1f5f9;color:#64748b;font-size:14px;font-weight:700}
+.step.active{background:#06b6d4;color:#fff}
+.step.done{background:#dcfce7;color:#166534}
+.results{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0 6px}
+.result-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:14px 10px}
+.result-box .label{font-size:13px;color:#64748b;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.result-box .value{font-size:28px;font-weight:800;color:#0f172a;line-height:1.2}
+.result-box .sub{font-size:13px;color:#64748b}
+.btn{display:inline-block;background:#06b6d4;color:#fff;font-weight:700;font-size:18px;padding:14px 36px;border:none;border-radius:8px;cursor:pointer;margin-top:10px}
+.btn:hover{background:#0891b2}
+.btn:disabled{background:#94a3b8;cursor:not-allowed}
+.btn.secondary{background:#fff;color:#0e7490;border:2px solid #06b6d4;font-size:15px;padding:10px 22px}
+.progress-note{font-size:13px;color:#64748b;margin-top:10px;min-height:20px}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:15px}
+th,td{border:1px solid #e2e8f0;padding:9px 12px;text-align:left}
+th{background:#0f172a;color:#fff}
+.faq{margin-top:10px}
+.faq-item{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:16px;margin-bottom:12px}
+.faq-item h3{margin:0 0 6px;font-size:17px;color:#0e7490}
+.faq-item p{margin:0}
+.related{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:18px;margin-top:32px}
+.related h3{margin-top:0}
+.related ul{margin-bottom:0}
+.cta-box{background:#0f172a;border-radius:12px;padding:24px;margin-top:32px;text-align:center}
+.cta-box h3{color:#fff;font-size:20px;margin:0 0 6px}
+.cta-box p{color:#cbd5e1;margin-bottom:16px}
+.cta-box a{display:inline-block;background:#06b6d4;color:#fff;font-weight:700;padding:12px 24px;border-radius:8px}
+.cta-box a:hover{background:#0891b2;text-decoration:none}
+footer{background:#0f172a;color:#cbd5e1;margin-top:40px}
+.footer-inner{max-width:1100px;margin:0 auto;padding:28px 20px;display:flex;flex-wrap:wrap;gap:28px;justify-content:space-between}
+.footer-col h4{color:#06b6d4;margin-bottom:10px;font-size:16px}
+.footer-col a{display:block;color:#cbd5e1;padding:3px 0;font-size:14px}
+.copyright{max-width:1100px;margin:0 auto;padding:0 20px 22px;color:#94a3b8;font-size:13px}
+@media(max-width:640px){h1{font-size:25px}.header-inner{justify-content:center;text-align:center}nav{justify-content:center}.results{grid-template-columns:1fr}.gauge-wrap{width:200px;height:200px}.gauge-num .big{font-size:42px}}
+</style>
+</head>
+<body>
+<header>
+<div class="header-inner">
+<a class="logo" href="../index.html">SpeedCheck <span>Pro</span></a>
+<nav>
+<a href="../index.html">Home</a>
+<a href="speed-test.html" class="active">Speed Test</a>
+<a href="../index.html#tools">Tools</a>
+<a href="../index.html#guides">Guides</a>
+<a href="../about.html">About</a>
+<a href="../contact.html">Contact</a>
+</nav>
+</div>
+</header>
+<main>
+<div class="breadcrumb"><a href="../index.html">Home</a> / <a href="../index.html#tools">Tools</a> / Speed Test</div>
+<h1>Internet Speed Test</h1>
+<p class="meta">Free speed test &bull; Measures your real ping, download and upload speed &bull; No sign-up</p>
+
+<div class="test-card">
+<div class="gauge-wrap">
+<svg width="240" height="240" viewBox="0 0 240 240" aria-hidden="true">
+<circle cx="120" cy="120" r="104" fill="none" stroke="#e2e8f0" stroke-width="16"/>
+<circle id="gaugeArc" cx="120" cy="120" r="104" fill="none" stroke="#06b6d4" stroke-width="16" stroke-linecap="round" stroke-dasharray="653.45" stroke-dashoffset="653.45"/>
+</svg>
+<div class="gauge-num">
+<span class="big" id="bigNumber">--</span>
+<span class="unit" id="bigUnit">Mbps</span>
+<span class="phase-label" id="phaseLabel">Ready when you are</span>
+</div>
+</div>
+
+<div class="steps">
+<span class="step" id="stepPing">1. Ping</span>
+<span class="step" id="stepDownload">2. Download</span>
+<span class="step" id="stepUpload">3. Upload</span>
+</div>
+
+<div class="results">
+<div class="result-box">
+<div class="label">Ping</div>
+<div class="value" id="pingValue">--</div>
+<div class="sub" id="pingSub">milliseconds</div>
+</div>
+<div class="result-box">
+<div class="label">Download</div>
+<div class="value" id="downloadValue">--</div>
+<div class="sub" id="downloadSub">Mbps</div>
+</div>
+<div class="result-box">
+<div class="label">Upload</div>
+<div class="value" id="uploadValue">--</div>
+<div class="sub" id="uploadSub">Mbps</div>
+</div>
+</div>
+
+<div class="error-box" id="errorBox">
+<strong>We couldn't reach the test servers. Check your connection and try again.</strong>
+<p>This can happen if you are offline, behind a VPN or firewall, or if an ad blocker is stopping the test. No results were recorded for the failed part of the test.</p>
+<p class="error-detail" id="errorDetail"></p>
+</div>
+
+<button class="btn" id="startBtn">Start Test</button>
+<p class="progress-note" id="progressNote">The test takes about 25 seconds.</p>
+</div>
+
+<div class="warning">
+<strong>Data use warning:</strong> a full speed test on a fast connection can use a few hundred MB of data. If you are on a mobile data plan, connect to Wi-Fi before starting the test.
+</div>
+
+<h2>What this test measures</h2>
+<p>This speed test runs entirely in your browser and measures your connection against public test servers. It works in three phases:</p>
+<ol>
+<li><strong>Ping (latency):</strong> how long a tiny request takes to reach the server and come back, measured in milliseconds. Lower is better, and it matters most for gaming and video calls.</li>
+<li><strong>Download speed:</strong> how fast your connection can pull data down, measured in megabits per second (Mbps). This decides how quickly pages load, videos stream and files download.</li>
+<li><strong>Upload speed:</strong> how fast your connection can send data up, also in Mbps. This matters for video calls, live streaming and backing files up to the cloud.</li>
+</ol>
+<p>Every number you see is a real measurement of your connection at the moment of the test. Nothing is estimated, simulated or filled in. If the test servers cannot be reached, the test stops and tells you so instead of showing a made-up result.</p>
+
+<h2>How to get an accurate result</h2>
+<ul>
+<li>Close streaming apps, downloads and cloud backups while the test runs — they share your connection and will lower the result.</li>
+<li>Use a wired (Ethernet) connection if you want to test your internet plan itself. On Wi-Fi, stand close to the router.</li>
+<li>Run the test two or three times and compare. A single test can be affected by a busy moment on your network.</li>
+<li>Test at different times of day. Many connections are slower in the evening, when the whole neighbourhood is online.</li>
+</ul>
+
+<div class="tip">
+<strong>Tip:</strong> Not sure what your numbers mean? Read our guide <a href="../guides/what-is-a-good-internet-speed.html">What Is a Good Internet Speed?</a> or use the <a href="speed-requirements-checker.html">Speed Requirements Checker</a> to find out what speed your household actually needs.
+</div>
+
+<h2>More free tools</h2>
+<ul>
+<li><a href="ping-test.html">Ping &amp; Jitter Test</a> — a focused latency test with 10 samples.</li>
+<li><a href="download-time-calculator.html">Download Time Calculator</a> — how long will that file take?</li>
+<li><a href="speed-requirements-checker.html">Speed Requirements Checker</a> — what speed does your household need?</li>
+</ul>
+
+<div class="faq">
+<h2>Frequently Asked Questions</h2>
+<div class="faq-item">
+<h3>Is this speed test free?</h3>
+<p>Yes. The test is completely free, with no sign-up, no app to install and no limit on how many times you run it.</p>
+</div>
+<div class="faq-item">
+<h3>Why is my speed lower than my plan promises?</h3>
+<p>Your plan speed is the maximum your provider offers, not a guarantee. Wi-Fi distance, an old router, other people using the connection and evening congestion can all lower the measured result. Try a wired connection and test again.</p>
+</div>
+<div class="faq-item">
+<h3>Does the test store my results?</h3>
+<p>No. The test runs in your browser and the results are shown only to you. Nothing is uploaded or saved on our servers.</p>
+</div>
+</div>
+
+<div class="related">
+<h3>Related Guides</h3>
+<ul>
+<li><a href="../guides/what-is-a-good-internet-speed.html">What Is a Good Internet Speed?</a></li>
+<li><a href="../guides/what-is-ping-and-why-it-matters.html">What Is Ping and Why Does It Matter?</a></li>
+<li><a href="../guides/why-is-my-internet-slow-at-night.html">Why Is My Internet Slow at Night?</a></li>
+<li><a href="../guides/download-vs-upload-speed.html">Download vs Upload Speed</a></li>
+</ul>
+</div>
+</main>
+<footer>
+<div class="footer-inner">
+<div class="footer-col"><h4>SpeedCheck Pro</h4><a href="../index.html">Home</a><a href="speed-test.html">Speed Test</a><a href="../index.html#tools">All Tools</a><a href="../index.html#guides">All Guides</a></div>
+<div class="footer-col"><h4>Popular Guides</h4><a href="../guides/what-is-a-good-internet-speed.html">What Is a Good Internet Speed?</a><a href="../guides/why-is-my-internet-slow-at-night.html">Why Is My Internet Slow at Night?</a><a href="../guides/what-is-ping-and-why-it-matters.html">What Is Ping?</a></div>
+<div class="footer-col"><h4>Information</h4><a href="../about.html">About Us</a><a href="../contact.html">Contact</a><a href="../privacy.html">Privacy Policy</a><a href="../disclaimer.html">Disclaimer</a></div>
+</div>
+<p class="copyright">SpeedCheck Pro is an independent guide site. Speed test results are measured from your own connection in your browser. &copy; 2026 SpeedCheck Pro.</p>
+</footer>
+<script>
+(function () {
+  'use strict';
+
+  var DOWN_URL = 'https://speed.cloudflare.com/__down';
+  var UP_URL = 'https://speed.cloudflare.com/__up';
+  var CIRCUMFERENCE = 653.45; // 2 * pi * 104
+
+  var bigNumber = document.getElementById('bigNumber');
+  var bigUnit = document.getElementById('bigUnit');
+  var phaseLabel = document.getElementById('phaseLabel');
+  var gaugeArc = document.getElementById('gaugeArc');
+  var startBtn = document.getElementById('startBtn');
+  var progressNote = document.getElementById('progressNote');
+  var errorBox = document.getElementById('errorBox');
+  var errorDetail = document.getElementById('errorDetail');
+  var pingValue = document.getElementById('pingValue');
+  var pingSub = document.getElementById('pingSub');
+  var downloadValue = document.getElementById('downloadValue');
+  var downloadSub = document.getElementById('downloadSub');
+  var uploadValue = document.getElementById('uploadValue');
+  var uploadSub = document.getElementById('uploadSub');
+
+  var running = false;
+
+  function sleep(ms) {
+    return new Promise(function (resolve) { setTimeout(resolve, ms); });
+  }
+
+  // Cache-busting parameter so every request is a fresh measurement.
+  function bust() {
+    return 'r=' + Date.now();
+  }
+
+  function setStep(id, state) {
+    var el = document.getElementById(id);
+    el.classList.remove('active', 'done');
+    if (state) el.classList.add(state);
+  }
+
+  function resetSteps() {
+    setStep('stepPing', null);
+    setStep('stepDownload', null);
+    setStep('stepUpload', null);
+  }
+
+  // Log-scale gauge: 1 Mbps ~ 0%, 1000 Mbps ~ 100%.
+  function setGauge(mbps) {
+    var pct = 0;
+    if (mbps > 0) {
+      pct = Math.min(100, Math.log10(mbps + 1) / 3 * 100);
+    }
+    gaugeArc.style.strokeDashoffset = String(CIRCUMFERENCE * (1 - pct / 100));
+  }
+
+  function showError(message, detail) {
+    errorDetail.textContent = detail || '';
+    errorBox.style.display = 'block';
+    phaseLabel.textContent = 'Test stopped';
+    progressNote.textContent = message;
+  }
+
+  function hideError() {
+    errorBox.style.display = 'none';
+    errorDetail.textContent = '';
+  }
+
+  function fmtMbps(v) {
+    return v >= 100 ? v.toFixed(0) : v.toFixed(1);
+  }
+
+  // ---- Phase 1: Ping ----
+  // 6 timed samples to the zero-byte endpoint; report the minimum and the average.
+  async function runPing() {
+    setStep('stepPing', 'active');
+    phaseLabel.textContent = 'Measuring ping...';
+    var samples = [];
+    for (var i = 0; i < 6; i++) {
+      var t0 = performance.now();
+      var res = await fetch(DOWN_URL + '?bytes=0&' + bust(), { cache: 'no-store' });
+      await res.arrayBuffer();
+      samples.push(performance.now() - t0);
+      var best = Math.min.apply(null, samples);
+      bigNumber.textContent = String(Math.round(best));
+      bigUnit.textContent = 'ms';
+      setGauge(0);
+      progressNote.textContent = 'Ping sample ' + (i + 1) + ' of 6: ' + best.toFixed(0) + ' ms (best so far)';
+      await sleep(120);
+    }
+    samples.sort(function (a, b) { return a - b; });
+    var min = samples[0];
+    var sum = samples.reduce(function (a, b) { return a + b; }, 0);
+    var avg = sum / samples.length;
+    pingValue.textContent = min.toFixed(0);
+    pingSub.textContent = 'ms (avg ' + avg.toFixed(0) + ' ms)';
+    setStep('stepPing', 'done');
+    return { min: min, avg: avg };
+  }
+
+  // ---- Phase 2: Download ----
+  // Adaptive sizes over ~10 seconds, 4 parallel streams. Throughput is measured
+  // from real bytes received over real elapsed time.
+  async function runDownload() {
+    setStep('stepDownload', 'active');
+    phaseLabel.textContent = 'Measuring download...';
+    bigUnit.textContent = 'Mbps';
+    var totalBytes = 0;
+    var start = performance.now();
+    var durationMs = 10000;
+    var size = 100 * 1024; // start at 100 KB per request
+    var maxSize = 25 * 1024 * 1024;
+    var streams = 4;
+
+    while (performance.now() - start < durationMs) {
+      var roundStart = performance.now();
+      var jobs = [];
+      for (var s = 0; s < streams; s++) {
+        jobs.push(fetch(DOWN_URL + '?bytes=' + size + '&' + bust(), { cache: 'no-store' })
+          .then(function (r) { return r.arrayBuffer(); })
+          .then(function (buf) { return buf.byteLength; }));
+      }
+      var results = await Promise.all(jobs);
+      var roundBytes = results.reduce(function (a, b) { return a + b; }, 0);
+      totalBytes += roundBytes;
+      var elapsedSec = (performance.now() - start) / 1000;
+      var mbps = totalBytes * 8 / elapsedSec / 1000000;
+      bigNumber.textContent = fmtMbps(mbps);
+      setGauge(mbps);
+      progressNote.textContent = 'Download: ' + fmtMbps(mbps) + ' Mbps — ' + (totalBytes / 1048576).toFixed(1) + ' MB received';
+      // Adapt: aim for each request to take roughly 0.5–1.5 seconds.
+      var roundSec = (performance.now() - roundStart) / 1000;
+      if (roundSec < 0.7 && size < maxSize) {
+        size = Math.min(maxSize, size * 2);
+      } else if (roundSec > 2.5 && size > 100 * 1024) {
+        size = Math.max(100 * 1024, Math.floor(size / 2));
+      }
+    }
+    var totalSec = (performance.now() - start) / 1000;
+    var finalMbps = totalBytes * 8 / totalSec / 1000000;
+    downloadValue.textContent = fmtMbps(finalMbps);
+    downloadSub.textContent = 'Mbps (' + (totalBytes / 1048576).toFixed(0) + ' MB tested)';
+    setStep('stepDownload', 'done');
+    return finalMbps;
+  }
+
+  // ---- Phase 3: Upload ----
+  // POST an adaptive payload built from a fixed repeating byte pattern
+  // (values 0–255 repeating). Throughput is measured from real bytes sent
+  // over real elapsed time.
+  function makePayload(bytes) {
+    var buf = new Uint8Array(bytes);
+    for (var i = 0; i < bytes; i++) {
+      buf[i] = i & 255;
+    }
+    return buf;
+  }
+
+  async function runUpload() {
+    setStep('stepUpload', 'active');
+    phaseLabel.textContent = 'Measuring upload...';
+    bigUnit.textContent = 'Mbps';
+    var totalBytes = 0;
+    var start = performance.now();
+    var durationMs = 10000;
+    var size = 100 * 1024; // start at 100 KB per request
+    var maxSize = 10 * 1024 * 1024;
+    var streams = 3;
+
+    while (performance.now() - start < durationMs) {
+      var roundStart = performance.now();
+      var jobs = [];
+      for (var s = 0; s < streams; s++) {
+        var payload = makePayload(size);
+        jobs.push(fetch(UP_URL + '?' + bust(), {
+          method: 'POST',
+          body: payload,
+          cache: 'no-store'
+        }).then(function () { return size; }));
+      }
+      var results = await Promise.all(jobs);
+      var roundBytes = results.reduce(function (a, b) { return a + b; }, 0);
+      totalBytes += roundBytes;
+      var elapsedSec = (performance.now() - start) / 1000;
+      var mbps = totalBytes * 8 / elapsedSec / 1000000;
+      bigNumber.textContent = fmtMbps(mbps);
+      setGauge(mbps);
+      progressNote.textContent = 'Upload: ' + fmtMbps(mbps) + ' Mbps — ' + (totalBytes / 1048576).toFixed(1) + ' MB sent';
+      var roundSec = (performance.now() - roundStart) / 1000;
+      if (roundSec < 0.7 && size < maxSize) {
+        size = Math.min(maxSize, size * 2);
+      } else if (roundSec > 2.5 && size > 100 * 1024) {
+        size = Math.max(100 * 1024, Math.floor(size / 2));
+      }
+    }
+    var totalSec = (performance.now() - start) / 1000;
+    var finalMbps = totalBytes * 8 / totalSec / 1000000;
+    uploadValue.textContent = fmtMbps(finalMbps);
+    uploadSub.textContent = 'Mbps (' + (totalBytes / 1048576).toFixed(0) + ' MB tested)';
+    setStep('stepUpload', 'done');
+    return finalMbps;
+  }
+
+  async function runTest() {
+    if (running) return;
+    running = true;
+    hideError();
+    resetSteps();
+    startBtn.disabled = true;
+    startBtn.textContent = 'Testing...';
+    pingValue.textContent = '--';
+    pingSub.textContent = 'milliseconds';
+    downloadValue.textContent = '--';
+    downloadSub.textContent = 'Mbps';
+    uploadValue.textContent = '--';
+    uploadSub.textContent = 'Mbps';
+    bigNumber.textContent = '--';
+    bigUnit.textContent = 'Mbps';
+    setGauge(0);
+
+    try {
+      await runPing();
+      var down = await runDownload();
+      bigNumber.textContent = fmtMbps(down);
+      setGauge(down);
+      var up = await runUpload();
+      bigNumber.textContent = fmtMbps(up);
+      setGauge(up);
+      phaseLabel.textContent = 'Test complete';
+      progressNote.textContent = 'Done. Run the test again any time to compare results.';
+    } catch (err) {
+      showError(
+        "We couldn't reach the test servers. Check your connection and try again.",
+        err && err.message ? 'Technical detail: ' + err.message : ''
+      );
+    } finally {
+      running = false;
+      startBtn.disabled = false;
+      startBtn.textContent = 'Test Again';
+    }
+  }
+
+  startBtn.addEventListener('click', runTest);
+})();
+</script>
+</body>
+</html>

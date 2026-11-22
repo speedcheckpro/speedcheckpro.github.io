@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What Internet Speed Do I Need? | SpeedCheck Pro</title>
+<meta name="description" content="Free speed requirements checker: tick what your household does online and see the recommended download and upload speed, with a full breakdown and the plan tier to look for.">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:#f8fafc;color:#1e293b;line-height:1.7}
+a{color:#0891b2;text-decoration:none}
+a:hover{text-decoration:underline}
+header{background:#0f172a;border-bottom:3px solid #06b6d4;position:sticky;top:0;z-index:100}
+.header-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 20px;flex-wrap:wrap;gap:10px}
+.logo{font-size:23px;font-weight:800;color:#fff;letter-spacing:.3px}
+.logo span{color:#06b6d4}
+nav{display:flex;gap:4px;flex-wrap:wrap}
+nav a{color:#cbd5e1;padding:8px 12px;border-radius:6px;font-size:15px;font-weight:600}
+nav a:hover{background:#1e293b;color:#06b6d4;text-decoration:none}
+nav a.active{background:#06b6d4;color:#0f172a}
+main{max-width:900px;margin:0 auto;padding:24px 20px 40px}
+.breadcrumb{font-size:13px;color:#64748b;margin-bottom:12px}
+.breadcrumb a{color:#64748b}
+h1{font-size:31px;line-height:1.25;margin-bottom:8px;color:#0f172a}
+.meta{color:#64748b;font-size:14px;margin-bottom:20px}
+h2{font-size:23px;color:#0f172a;margin:28px 0 10px;padding-bottom:6px;border-bottom:2px solid #cffafe}
+h3{font-size:18px;color:#0f172a;margin:20px 0 8px}
+p{margin-bottom:14px}
+ul,ol{margin:0 0 14px 24px}
+li{margin-bottom:6px}
+.tip{background:#ecfeff;border-left:4px solid #06b6d4;padding:14px 16px;border-radius:0 8px 8px 0;margin:20px 0}
+.tip strong{color:#0e7490}
+/* Checker widget */
+.calc-card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:28px 20px;margin:20px 0;box-shadow:0 1px 3px rgba(15,23,42,.06)}
+.field{margin-bottom:18px}
+.field label{display:block;font-weight:700;color:#0f172a;margin-bottom:6px;font-size:15px}
+.field input[type="number"]{width:140px;padding:12px 14px;border:2px solid #e2e8f0;border-radius:8px;font-size:16px;font-family:inherit;color:#1e293b;background:#fff}
+.field input[type="number"]:focus{outline:none;border-color:#06b6d4}
+.activities{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px}
+.activity{display:flex;align-items:flex-start;gap:10px;background:#f8fafc;border:2px solid #e2e8f0;border-radius:10px;padding:12px 14px;cursor:pointer}
+.activity:hover{border-color:#06b6d4}
+.activity input{margin-top:4px;width:18px;height:18px;accent-color:#0891b2;flex-shrink:0}
+.activity .act-name{font-weight:700;color:#0f172a;font-size:15px;line-height:1.4}
+.activity .act-need{font-size:13px;color:#64748b;line-height:1.4}
+.result-box{background:#0f172a;border-radius:10px;padding:22px 16px;text-align:center;margin-top:18px}
+.result-box .label{font-size:13px;color:#94a3b8;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.result-box .value{font-size:38px;font-weight:800;color:#fff;line-height:1.2}
+.result-box .detail{font-size:14px;color:#cbd5e1;margin-top:4px}
+.breakdown{margin-top:18px}
+.breakdown table{width:100%;border-collapse:collapse;font-size:15px}
+.breakdown th,.breakdown td{border:1px solid #e2e8f0;padding:9px 12px;text-align:left}
+.breakdown th{background:#0f172a;color:#fff}
+.breakdown tr.total td{font-weight:800;background:#f1f5f9}
+.breakdown tr.tier td{font-weight:800;background:#ecfeff;color:#0e7490}
+.note{font-size:14px;color:#64748b;margin-top:12px}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:15px}
+th,td{border:1px solid #e2e8f0;padding:9px 12px;text-align:left}
+th{background:#0f172a;color:#fff}
+.faq{margin-top:10px}
+.faq-item{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:16px;margin-bottom:12px}
+.faq-item h3{margin:0 0 6px;font-size:17px;color:#0e7490}
+.faq-item p{margin:0}
+.related{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:18px;margin-top:32px}
+.related h3{margin-top:0}
+.related ul{margin-bottom:0}
+.cta-box{background:#0f172a;border-radius:12px;padding:24px;margin-top:32px;text-align:center}
+.cta-box h3{color:#fff;font-size:20px;margin:0 0 6px}
+.cta-box p{color:#cbd5e1;margin-bottom:16px}
+.cta-box a{display:inline-block;background:#06b6d4;color:#fff;font-weight:700;padding:12px 24px;border-radius:8px}
+.cta-box a:hover{background:#0891b2;text-decoration:none}
+footer{background:#0f172a;color:#cbd5e1;margin-top:40px}
+.footer-inner{max-width:1100px;margin:0 auto;padding:28px 20px;display:flex;flex-wrap:wrap;gap:28px;justify-content:space-between}
+.footer-col h4{color:#06b6d4;margin-bottom:10px;font-size:16px}
+.footer-col a{display:block;color:#cbd5e1;padding:3px 0;font-size:14px}
+.copyright{max-width:1100px;margin:0 auto;padding:0 20px 22px;color:#94a3b8;font-size:13px}
+@media(max-width:640px){h1{font-size:25px}.header-inner{justify-content:center;text-align:center}nav{justify-content:center}.activities{grid-template-columns:1fr}.result-box .value{font-size:30px}}
+</style>
+</head>
+<body>
+<header>
+<div class="header-inner">
+<a class="logo" href="../index.html">SpeedCheck <span>Pro</span></a>
+<nav>
+<a href="../index.html">Home</a>
+<a href="speed-test.html">Speed Test</a>
+<a href="../index.html#tools" class="active">Tools</a>
+<a href="../index.html#guides">Guides</a>
+<a href="../about.html">About</a>
+<a href="../contact.html">Contact</a>
+</nav>
+</div>
+</header>
+<main>
+<div class="breadcrumb"><a href="../index.html">Home</a> / <a href="../index.html#tools">Tools</a> / Speed Requirements Checker</div>
+<h1>What Internet Speed Do I Need?</h1>
+<p class="meta">Tick what your household does online and find your recommended speed</p>
+
+<div class="calc-card">
+<div class="field">
+<label>What do you do online? (tick all that apply)</label>
+<div class="activities" id="activities">
+<label class="activity"><input type="checkbox" data-down="5" data-up="1" checked><span><span class="act-name">Browsing &amp; email</span><br><span class="act-need">5 Mbps down / 1 Mbps up</span></span></label>
+<label class="activity"><input type="checkbox" data-down="5" data-up="1"><span><span class="act-name">HD streaming</span><br><span class="act-need">5 Mbps down / 1 Mbps up per stream</span></span></label>
+<label class="activity"><input type="checkbox" data-down="25" data-up="3"><span><span class="act-name">4K streaming</span><br><span class="act-need">25 Mbps down / 3 Mbps up per stream</span></span></label>
+<label class="activity"><input type="checkbox" data-down="3" data-up="3"><span><span class="act-name">Video calls</span><br><span class="act-need">3 Mbps down / 3 Mbps up per call</span></span></label>
+<label class="activity"><input type="checkbox" data-down="10" data-up="5"><span><span class="act-name">Online gaming</span><br><span class="act-need">10 Mbps down / 5 Mbps up (low ping matters more)</span></span></label>
+<label class="activity"><input type="checkbox" data-down="5" data-up="10"><span><span class="act-name">Live streaming</span><br><span class="act-need">5 Mbps down / 10 Mbps up to broadcast</span></span></label>
+<label class="activity"><input type="checkbox" data-down="5" data-up="10"><span><span class="act-name">Cloud backup</span><br><span class="act-need">5 Mbps down / 10 Mbps up while syncing</span></span></label>
+<label class="activity"><input type="checkbox" data-down="2" data-up="1"><span><span class="act-name">Smart-home devices</span><br><span class="act-need">2 Mbps down / 1 Mbps up for the household</span></span></label>
+</div>
+</div>
+
+<div class="field">
+<label for="usersInput">How many people use the internet at the same time?</label>
+<input type="number" id="usersInput" min="1" max="20" step="1" value="2" aria-label="Number of simultaneous users">
+<p class="note">Each extra person beyond the first adds 5 Mbps download and 1 Mbps upload for general browsing and background use.</p>
+</div>
+
+<div class="result-box">
+<div class="label">Recommended plan</div>
+<div class="value" id="tierValue">50 Mbps</div>
+<div class="detail" id="tierDetail">at least 15 Mbps download and 3 Mbps upload</div>
+</div>
+
+<div class="breakdown">
+<table>
+<thead>
+<tr><th>Item</th><th>Download</th><th>Upload</th></tr>
+</thead>
+<tbody id="breakdownBody"></tbody>
+</table>
+<p class="note">The recommendation is rounded up to the nearest common plan tier so there is headroom when several things run at once. If your measured speed is below the recommendation, run the <a href="speed-test.html">speed test</a> to confirm, then compare plans.</p>
+</div>
+</div>
+
+<h2>How the recommendation is worked out</h2>
+<p>Each activity has a typical speed requirement, based on what streaming services, video-call apps and game platforms publish. The checker adds up everything you ticked, then adds 5 Mbps download and 1 Mbps upload for each extra person using the connection at the same time, to cover their general browsing. Finally it rounds up to the nearest common plan tier — 10, 25, 50, 100, 200, 300, 500 or 1000 Mbps — so your connection has room to breathe when several things happen at once.</p>
+
+<h2>Typical speed needs</h2>
+<table>
+<tr><th>Household</th><th>Suggested plan</th></tr>
+<tr><td>1 person, browsing and HD streaming</td><td>25 Mbps</td></tr>
+<tr><td>2–3 people, HD streaming and video calls</td><td>50–100 Mbps</td></tr>
+<tr><td>Family with 4K streaming and gaming</td><td>100–200 Mbps</td></tr>
+<tr><td>Heavy household, live streaming or large backups</td><td>300 Mbps or more</td></tr>
+</table>
+
+<div class="tip">
+<strong>Tip:</strong> Speed is only half the story for gaming and video calls — low, stable ping matters just as much. Check yours with the <a href="ping-test.html">ping test</a>, and read <a href="../guides/what-is-a-good-internet-speed.html">What Is a Good Internet Speed?</a> for the full picture.
+</div>
+
+<div class="faq">
+<h2>Frequently Asked Questions</h2>
+<div class="faq-item">
+<h3>Is 100 Mbps enough for a family?</h3>
+<p>For most families, yes. 100 Mbps comfortably covers several HD streams, video calls and gaming at the same time. You only need more if you stream in 4K on several screens at once, broadcast live, or move very large files to the cloud regularly.</p>
+</div>
+<div class="faq-item">
+<h3>Does upload speed matter?</h3>
+<p>Yes, if you make video calls, live stream, or back files up to the cloud — all of those send a lot of data. For browsing and watching video only, upload speed barely matters, which is why many plans offer far less upload than download.</p>
+</div>
+<div class="faq-item">
+<h3>Should I buy the fastest plan available?</h3>
+<p>Not necessarily. Speed above what your household uses does not make pages load or videos play any better. Use this checker to find your real need, then pick the cheapest plan that meets it with a little headroom.</p>
+</div>
+</div>
+
+<div class="related">
+<h3>Related Guides</h3>
+<ul>
+<li><a href="../guides/what-is-a-good-internet-speed.html">What Is a Good Internet Speed?</a></li>
+<li><a href="../guides/download-vs-upload-speed.html">Download vs Upload Speed</a></li>
+<li><a href="../guides/wifi-vs-ethernet.html">Wi-Fi vs Ethernet</a></li>
+</ul>
+</div>
+</main>
+<footer>
+<div class="footer-inner">
+<div class="footer-col"><h4>SpeedCheck Pro</h4><a href="../index.html">Home</a><a href="speed-test.html">Speed Test</a><a href="../index.html#tools">All Tools</a><a href="../index.html#guides">All Guides</a></div>
+<div class="footer-col"><h4>Popular Guides</h4><a href="../guides/what-is-a-good-internet-speed.html">What Is a Good Internet Speed?</a><a href="../guides/why-is-my-internet-slow-at-night.html">Why Is My Internet Slow at Night?</a><a href="../guides/what-is-ping-and-why-it-matters.html">What Is Ping?</a></div>
+<div class="footer-col"><h4>Information</h4><a href="../about.html">About Us</a><a href="../contact.html">Contact</a><a href="../privacy.html">Privacy Policy</a><a href="../disclaimer.html">Disclaimer</a></div>
+</div>
+<p class="copyright">SpeedCheck Pro is an independent guide site. Speed test results are measured from your own connection in your browser. &copy; 2026 SpeedCheck Pro.</p>
+</footer>
+<script>
+(function () {
+  'use strict';
+
+  var TIERS = [10, 25, 50, 100, 200, 300, 500, 1000];
+  var EXTRA_USER_DOWN = 5; // Mbps per extra simultaneous user
+  var EXTRA_USER_UP = 1;   // Mbps per extra simultaneous user
+
+  var activitiesBox = document.getElementById('activities');
+  var usersInput = document.getElementById('usersInput');
+  var tierValue = document.getElementById('tierValue');
+  var tierDetail = document.getElementById('tierDetail');
+  var breakdownBody = document.getElementById('breakdownBody');
+
+  function roundUpToTier(needed) {
+    for (var i = 0; i < TIERS.length; i++) {
+      if (TIERS[i] >= needed) return TIERS[i];
+    }
+    return TIERS[TIERS.length - 1];
+  }
+
+  function calculate() {
+    var users = parseInt(usersInput.value, 10);
+    if (isNaN(users) || users < 1) users = 1;
+    if (users > 20) users = 20;
+
+    var down = 0;
+    var up = 0;
+    var rows = [];
+    var boxes = activitiesBox.querySelectorAll('input[type="checkbox"]');
+    for (var i = 0; i < boxes.length; i++) {
+      if (!boxes[i].checked) continue;
+      var d = parseFloat(boxes[i].getAttribute('data-down'));
+      var u = parseFloat(boxes[i].getAttribute('data-up'));
+      var name = boxes[i].parentElement.querySelector('.act-name').textContent;
+      down += d;
+      up += u;
+      rows.push({ name: name, down: d, up: u });
+    }
+
+    var extraUsers = users - 1;
+    if (extraUsers > 0) {
+      var extraDown = extraUsers * EXTRA_USER_DOWN;
+      var extraUp = extraUsers * EXTRA_USER_UP;
+      down += extraDown;
+      up += extraUp;
+      rows.push({
+        name: 'Extra users (' + extraUsers + ' more ' + (extraUsers === 1 ? 'person' : 'people') + ' online)',
+        down: extraDown,
+        up: extraUp
+      });
+    }
+
+    var tierDown = roundUpToTier(down);
+    var tierUp = roundUpToTier(up);
+
+    tierValue.textContent = tierDown + ' Mbps';
+    tierDetail.textContent = 'at least ' + down + ' Mbps download and ' + up + ' Mbps upload' +
+      (tierUp > tierDown ? ' — look for a plan with ' + tierUp + ' Mbps upload if you stream or back up a lot' : '');
+
+    var html = '';
+    for (var j = 0; j < rows.length; j++) {
+      html += '<tr><td>' + rows[j].name + '</td><td>' + rows[j].down + ' Mbps</td><td>' + rows[j].up + ' Mbps</td></tr>';
+    }
+    if (rows.length === 0) {
+      html += '<tr><td>Nothing selected</td><td>0 Mbps</td><td>0 Mbps</td></tr>';
+    }
+    html += '<tr class="total"><td>Total needed</td><td>' + down + ' Mbps</td><td>' + up + ' Mbps</td></tr>';
+    html += '<tr class="tier"><td>Recommended plan tier</td><td>' + tierDown + ' Mbps</td><td>' + tierUp + ' Mbps</td></tr>';
+    breakdownBody.innerHTML = html;
+  }
+
+  activitiesBox.addEventListener('change', calculate);
+  usersInput.addEventListener('input', calculate);
+
+  calculate();
+})();
+</script>
+</body>
+</html>

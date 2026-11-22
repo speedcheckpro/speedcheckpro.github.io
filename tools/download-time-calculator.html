@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Download Time Calculator — How Long Will It Take? | SpeedCheck Pro</title>
+<meta name="description" content="Free download time calculator: enter a file size and your connection speed to see exactly how long the download will take, in hours, minutes and seconds.">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:#f8fafc;color:#1e293b;line-height:1.7}
+a{color:#0891b2;text-decoration:none}
+a:hover{text-decoration:underline}
+header{background:#0f172a;border-bottom:3px solid #06b6d4;position:sticky;top:0;z-index:100}
+.header-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 20px;flex-wrap:wrap;gap:10px}
+.logo{font-size:23px;font-weight:800;color:#fff;letter-spacing:.3px}
+.logo span{color:#06b6d4}
+nav{display:flex;gap:4px;flex-wrap:wrap}
+nav a{color:#cbd5e1;padding:8px 12px;border-radius:6px;font-size:15px;font-weight:600}
+nav a:hover{background:#1e293b;color:#06b6d4;text-decoration:none}
+nav a.active{background:#06b6d4;color:#0f172a}
+main{max-width:900px;margin:0 auto;padding:24px 20px 40px}
+.breadcrumb{font-size:13px;color:#64748b;margin-bottom:12px}
+.breadcrumb a{color:#64748b}
+h1{font-size:31px;line-height:1.25;margin-bottom:8px;color:#0f172a}
+.meta{color:#64748b;font-size:14px;margin-bottom:20px}
+h2{font-size:23px;color:#0f172a;margin:28px 0 10px;padding-bottom:6px;border-bottom:2px solid #cffafe}
+h3{font-size:18px;color:#0f172a;margin:20px 0 8px}
+p{margin-bottom:14px}
+ul,ol{margin:0 0 14px 24px}
+li{margin-bottom:6px}
+.tip{background:#ecfeff;border-left:4px solid #06b6d4;padding:14px 16px;border-radius:0 8px 8px 0;margin:20px 0}
+.tip strong{color:#0e7490}
+/* Calculator widget */
+.calc-card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:28px 20px;margin:20px 0;box-shadow:0 1px 3px rgba(15,23,42,.06)}
+.field{margin-bottom:18px}
+.field label{display:block;font-weight:700;color:#0f172a;margin-bottom:6px;font-size:15px}
+.field input[type="number"],.field select{width:100%;padding:12px 14px;border:2px solid #e2e8f0;border-radius:8px;font-size:16px;font-family:inherit;color:#1e293b;background:#fff}
+.field input[type="number"]:focus,.field select:focus{outline:none;border-color:#06b6d4}
+.size-row{display:flex;gap:10px}
+.size-row input{flex:2}
+.size-row select{flex:1}
+.presets{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.preset{background:#f1f5f9;border:1px solid #e2e8f0;color:#0f172a;font-weight:600;font-size:14px;padding:8px 14px;border-radius:999px;cursor:pointer;font-family:inherit}
+.preset:hover{border-color:#06b6d4;background:#ecfeff}
+.preset.active{background:#06b6d4;border-color:#06b6d4;color:#fff}
+.result-box{background:#0f172a;border-radius:10px;padding:22px 16px;text-align:center;margin-top:6px}
+.result-box .label{font-size:13px;color:#94a3b8;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.result-box .value{font-size:38px;font-weight:800;color:#fff;line-height:1.2}
+.result-box .detail{font-size:14px;color:#cbd5e1;margin-top:4px}
+.hint{font-size:13px;color:#64748b;margin-top:10px}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:15px}
+th,td{border:1px solid #e2e8f0;padding:9px 12px;text-align:left}
+th{background:#0f172a;color:#fff}
+.faq{margin-top:10px}
+.faq-item{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:16px;margin-bottom:12px}
+.faq-item h3{margin:0 0 6px;font-size:17px;color:#0e7490}
+.faq-item p{margin:0}
+.related{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:18px;margin-top:32px}
+.related h3{margin-top:0}
+.related ul{margin-bottom:0}
+.cta-box{background:#0f172a;border-radius:12px;padding:24px;margin-top:32px;text-align:center}
+.cta-box h3{color:#fff;font-size:20px;margin:0 0 6px}
+.cta-box p{color:#cbd5e1;margin-bottom:16px}
+.cta-box a{display:inline-block;background:#06b6d4;color:#fff;font-weight:700;padding:12px 24px;border-radius:8px}
+.cta-box a:hover{background:#0891b2;text-decoration:none}
+footer{background:#0f172a;color:#cbd5e1;margin-top:40px}
+.footer-inner{max-width:1100px;margin:0 auto;padding:28px 20px;display:flex;flex-wrap:wrap;gap:28px;justify-content:space-between}
+.footer-col h4{color:#06b6d4;margin-bottom:10px;font-size:16px}
+.footer-col a{display:block;color:#cbd5e1;padding:3px 0;font-size:14px}
+.copyright{max-width:1100px;margin:0 auto;padding:0 20px 22px;color:#94a3b8;font-size:13px}
+@media(max-width:640px){h1{font-size:25px}.header-inner{justify-content:center;text-align:center}nav{justify-content:center}.result-box .value{font-size:30px}}
+</style>
+</head>
+<body>
+<header>
+<div class="header-inner">
+<a class="logo" href="../index.html">SpeedCheck <span>Pro</span></a>
+<nav>
+<a href="../index.html">Home</a>
+<a href="speed-test.html">Speed Test</a>
+<a href="../index.html#tools" class="active">Tools</a>
+<a href="../index.html#guides">Guides</a>
+<a href="../about.html">About</a>
+<a href="../contact.html">Contact</a>
+</nav>
+</div>
+</header>
+<main>
+<div class="breadcrumb"><a href="../index.html">Home</a> / <a href="../index.html#tools">Tools</a> / Download Time Calculator</div>
+<h1>Download Time Calculator</h1>
+<p class="meta">Find out exactly how long a download will take at your connection speed</p>
+
+<div class="calc-card">
+<div class="field">
+<label for="sizeInput">File size</label>
+<div class="size-row">
+<input type="number" id="sizeInput" min="0" step="any" value="1000" aria-label="File size">
+<select id="sizeUnit" aria-label="File size unit">
+<option value="MB" selected>MB</option>
+<option value="GB">GB</option>
+<option value="TB">TB</option>
+</select>
+</div>
+</div>
+
+<div class="field">
+<label>Common downloads</label>
+<div class="presets" id="presets">
+<button type="button" class="preset" data-size="100" data-unit="MB">100 MB app update</button>
+<button type="button" class="preset" data-size="1" data-unit="GB">1 GB movie</button>
+<button type="button" class="preset" data-size="5" data-unit="GB">5 GB game</button>
+<button type="button" class="preset" data-size="25" data-unit="GB">25 GB 4K movie</button>
+<button type="button" class="preset" data-size="50" data-unit="GB">50 GB game</button>
+</div>
+</div>
+
+<div class="field">
+<label for="speedInput">Your connection speed (Mbps)</label>
+<input type="number" id="speedInput" min="0" step="any" value="100" aria-label="Connection speed in Mbps">
+<p class="hint">Not sure of your speed? Run the <a href="speed-test.html">free speed test</a> first, then enter your download result here.</p>
+</div>
+
+<div class="result-box">
+<div class="label">Estimated download time</div>
+<div class="value" id="timeValue">1 min 20 sec</div>
+<div class="detail" id="timeDetail">1000 MB at 100 Mbps &bull; about 12.5 MB per second</div>
+</div>
+</div>
+
+<h2>How the calculation works</h2>
+<p>File sizes are measured in bytes (MB, GB) while connection speeds are measured in bits per second (Mbps). Because there are 8 bits in a byte, the formula is:</p>
+<p><strong>Time in seconds = file size in MB &times; 8 &divide; speed in Mbps</strong></p>
+<p>So a 1000 MB file on a 100 Mbps connection takes 1000 &times; 8 &divide; 100 = 80 seconds. This calculator uses 1 GB = 1024 MB and 1 TB = 1024 GB, the way operating systems report file sizes.</p>
+
+<h2>Why real downloads can take longer</h2>
+<ul>
+<li><strong>Shared connection:</strong> if other people or devices are streaming or downloading at the same time, your share of the speed is smaller.</li>
+<li><strong>Server limits:</strong> some servers cap how fast they send files, so even a fast connection cannot go quicker.</li>
+<li><strong>Wi-Fi:</strong> the speed your plan offers is not always the speed your device gets over Wi-Fi, especially far from the router.</li>
+<li><strong>Overhead:</strong> a small part of every connection is used by the network itself, so real-world times are usually a few percent longer than the estimate.</li>
+</ul>
+
+<div class="tip">
+<strong>Tip:</strong> If downloads feel slower than this calculator says they should, run the <a href="speed-test.html">speed test</a> and compare the measured speed with the speed your plan promises. If there is a big gap, read <a href="../guides/why-is-my-internet-slow-at-night.html">Why Is My Internet Slow at Night?</a>.
+</div>
+
+<div class="faq">
+<h2>Frequently Asked Questions</h2>
+<div class="faq-item">
+<h3>What is the difference between MB and Mbps?</h3>
+<p>MB (megabytes) measures file size; Mbps (megabits per second) measures connection speed. There are 8 megabits in a megabyte, which is why a 100 Mbps connection downloads at most about 12.5 MB per second.</p>
+</div>
+<div class="faq-item">
+<h3>How long does a 1 GB file take on a 100 Mbps connection?</h3>
+<p>About 1 minute 22 seconds. A gigabyte is 1024 MB, so 1024 &times; 8 &divide; 100 = 81.9 seconds.</p>
+</div>
+<div class="faq-item">
+<h3>Why does the estimate assume 1 GB = 1024 MB?</h3>
+<p>Operating systems and most download managers report sizes in binary units, where 1 GB = 1024 MB. Some storage makers use 1000 MB instead, so the real file may be slightly smaller than the label suggests.</p>
+</div>
+</div>
+
+<div class="related">
+<h3>Related Guides</h3>
+<ul>
+<li><a href="../guides/download-vs-upload-speed.html">Download vs Upload Speed</a></li>
+<li><a href="../guides/what-is-a-good-internet-speed.html">What Is a Good Internet Speed?</a></li>
+<li><a href="../guides/why-is-my-internet-slow-at-night.html">Why Is My Internet Slow at Night?</a></li>
+</ul>
+</div>
+</main>
+<footer>
+<div class="footer-inner">
+<div class="footer-col"><h4>SpeedCheck Pro</h4><a href="../index.html">Home</a><a href="speed-test.html">Speed Test</a><a href="../index.html#tools">All Tools</a><a href="../index.html#guides">All Guides</a></div>
+<div class="footer-col"><h4>Popular Guides</h4><a href="../guides/what-is-a-good-internet-speed.html">What Is a Good Internet Speed?</a><a href="../guides/why-is-my-internet-slow-at-night.html">Why Is My Internet Slow at Night?</a><a href="../guides/what-is-ping-and-why-it-matters.html">What Is Ping?</a></div>
+<div class="footer-col"><h4>Information</h4><a href="../about.html">About Us</a><a href="../contact.html">Contact</a><a href="../privacy.html">Privacy Policy</a><a href="../disclaimer.html">Disclaimer</a></div>
+</div>
+<p class="copyright">SpeedCheck Pro is an independent guide site. Speed test results are measured from your own connection in your browser. &copy; 2026 SpeedCheck Pro.</p>
+</footer>
+<script>
+(function () {
+  'use strict';
+
+  var MB_PER_GB = 1024;
+  var MB_PER_TB = 1024 * 1024;
+  var BITS_PER_BYTE = 8;
+
+  var sizeInput = document.getElementById('sizeInput');
+  var sizeUnit = document.getElementById('sizeUnit');
+  var speedInput = document.getElementById('speedInput');
+  var timeValue = document.getElementById('timeValue');
+  var timeDetail = document.getElementById('timeDetail');
+  var presetsBox = document.getElementById('presets');
+
+  function sizeToMB(size, unit) {
+    if (unit === 'GB') return size * MB_PER_GB;
+    if (unit === 'TB') return size * MB_PER_TB;
+    return size;
+  }
+
+  // seconds = size_MB * 8 / speed_Mbps
+  function downloadSeconds(sizeMB, speedMbps) {
+    return sizeMB * BITS_PER_BYTE / speedMbps;
+  }
+
+  function formatDuration(totalSeconds) {
+    var seconds = Math.round(totalSeconds);
+    var hours = Math.floor(seconds / 3600);
+    var minutes = Math.floor((seconds % 3600) / 60);
+    var secs = seconds % 60;
+    var parts = [];
+    if (hours > 0) parts.push(hours + (hours === 1 ? ' hr' : ' hrs'));
+    if (minutes > 0) parts.push(minutes + ' min');
+    if (secs > 0 || parts.length === 0) parts.push(secs + ' sec');
+    return parts.join(' ');
+  }
+
+  function formatSizeMB(sizeMB) {
+    if (sizeMB >= MB_PER_TB) return (sizeMB / MB_PER_TB).toFixed(2).replace(/\.?0+$/, '') + ' TB';
+    if (sizeMB >= MB_PER_GB) return (sizeMB / MB_PER_GB).toFixed(2).replace(/\.?0+$/, '') + ' GB';
+    return (Math.round(sizeMB * 10) / 10) + ' MB';
+  }
+
+  function calculate() {
+    var size = parseFloat(sizeInput.value);
+    var speed = parseFloat(speedInput.value);
+    if (isNaN(size) || size <= 0 || isNaN(speed) || speed <= 0) {
+      timeValue.textContent = '--';
+      timeDetail.textContent = 'Enter a file size and a connection speed above zero.';
+      return;
+    }
+    var sizeMB = sizeToMB(size, sizeUnit.value);
+    var seconds = downloadSeconds(sizeMB, speed);
+    timeValue.textContent = formatDuration(seconds);
+    var mbPerSec = speed / BITS_PER_BYTE;
+    timeDetail.textContent = formatSizeMB(sizeMB) + ' at ' + speed + ' Mbps \u2022 about ' +
+      (mbPerSec >= 10 ? mbPerSec.toFixed(1) : mbPerSec.toFixed(2)) + ' MB per second';
+  }
+
+  sizeInput.addEventListener('input', calculate);
+  sizeUnit.addEventListener('change', calculate);
+  speedInput.addEventListener('input', calculate);
+
+  presetsBox.addEventListener('click', function (event) {
+    var btn = event.target.closest('.preset');
+    if (!btn) return;
+    var buttons = presetsBox.querySelectorAll('.preset');
+    for (var i = 0; i < buttons.length; i++) buttons[i].classList.remove('active');
+    btn.classList.add('active');
+    sizeInput.value = btn.getAttribute('data-size');
+    sizeUnit.value = btn.getAttribute('data-unit');
+    calculate();
+  });
+
+  calculate();
+})();
+</script>
+</body>
+</html>
