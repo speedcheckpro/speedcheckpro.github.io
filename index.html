@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpeedCheck Pro — Free Internet Speed Test &amp; Guides</title>
+<meta name="description" content="Test your internet speed for free with SpeedCheck Pro. Measure real ping, download and upload speeds in your browser, and learn what your results mean with plain-English guides.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:#f8fafc;color:#1e293b;line-height:1.7}
+a{color:#0891b2;text-decoration:none}
+a:hover{text-decoration:underline}
+header{background:#0f172a;border-bottom:3px solid #06b6d4;position:sticky;top:0;z-index:100}
+.header-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 20px;flex-wrap:wrap;gap:10px}
+.logo{font-size:23px;font-weight:800;color:#fff;letter-spacing:.3px}
+.logo span{color:#06b6d4}
+nav{display:flex;gap:4px;flex-wrap:wrap}
+nav a{color:#cbd5e1;padding:8px 12px;border-radius:6px;font-size:15px;font-weight:600}
+nav a:hover{background:#1e293b;color:#06b6d4;text-decoration:none}
+nav a.active{background:#06b6d4;color:#0f172a}
+main{max-width:1100px;margin:0 auto;padding:24px 20px 40px}
+h1{font-size:32px;line-height:1.25;margin-bottom:8px;color:#0f172a}
+h2{font-size:23px;color:#0f172a;margin:36px 0 10px;padding-bottom:6px;border-bottom:2px solid #cffafe}
+h3{font-size:18px;color:#0f172a;margin:20px 0 8px}
+p{margin-bottom:14px}
+ul,ol{margin:0 0 14px 24px}
+li{margin-bottom:6px}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:15px}
+th,td{border:1px solid #e2e8f0;padding:9px 12px;text-align:left}
+th{background:#0f172a;color:#fff}
+.hero{background:#0f172a;border-radius:14px;padding:32px 24px;margin-bottom:8px;text-align:center}
+.hero h1{color:#fff}
+.hero p{color:#cbd5e1;max-width:640px;margin:0 auto 20px}
+.test-box{background:#fff;border-radius:12px;padding:24px;max-width:620px;margin:0 auto;text-align:center}
+.big-speed{font-size:56px;font-weight:800;color:#0f172a;line-height:1.1}
+.big-speed small{font-size:18px;color:#64748b;font-weight:600}
+.phase{font-size:15px;font-weight:700;color:#0e7490;margin:6px 0 14px;min-height:22px}
+.progress{height:10px;background:#e2e8f0;border-radius:5px;overflow:hidden;margin-bottom:16px}
+.progress-bar{height:100%;width:0%;background:#06b6d4;transition:width .3s ease}
+.results{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
+.result{flex:1;min-width:120px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px}
+.result .label{font-size:13px;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:.4px}
+.result .value{font-size:24px;font-weight:800;color:#0f172a}
+.result .unit{font-size:13px;color:#64748b;font-weight:600}
+.test-btn{display:inline-block;background:#06b6d4;color:#fff;font-weight:700;font-size:17px;padding:13px 32px;border:none;border-radius:8px;cursor:pointer}
+.test-btn:hover{background:#0891b2}
+.test-btn:disabled{background:#94a3b8;cursor:not-allowed}
+.data-warning{font-size:13px;color:#64748b;margin-top:14px}
+.error-box{display:none;background:#fef2f2;border:1px solid #fecaca;color:#991b1b;border-radius:8px;padding:12px 16px;margin-top:14px;font-weight:600}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:16px}
+.card{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:18px}
+.card h3{margin:0 0 6px;font-size:18px}
+.card h3 a{color:#0f172a}
+.card h3 a:hover{color:#0891b2}
+.card p{margin:0 0 10px;font-size:15px;color:#475569}
+.card .card-link{font-weight:700;font-size:15px}
+.guide-card{background:#fff;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden}
+.guide-card img{width:100%;height:150px;object-fit:cover;display:block}
+.guide-card .guide-body{padding:16px}
+.guide-card h3{margin:0 0 6px;font-size:17px;line-height:1.35}
+.guide-card h3 a{color:#0f172a}
+.guide-card h3 a:hover{color:#0891b2}
+.guide-card p{margin:0 0 10px;font-size:14px;color:#475569}
+.guide-card .card-link{font-weight:700;font-size:14px}
+.browse-all{text-align:center;margin-top:22px}
+.browse-all a{display:inline-block;background:#0f172a;color:#fff;font-weight:700;padding:12px 26px;border-radius:8px}
+.browse-all a:hover{background:#1e293b;text-decoration:none}
+.faq-item{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:16px;margin-bottom:12px}
+.faq-item h3{margin:0 0 6px;font-size:17px;color:#0e7490}
+.faq-item p{margin:0}
+footer{background:#0f172a;color:#cbd5e1;margin-top:40px}
+.footer-inner{max-width:1100px;margin:0 auto;padding:28px 20px;display:flex;flex-wrap:wrap;gap:28px;justify-content:space-between}
+.footer-col h4{color:#06b6d4;margin-bottom:10px;font-size:16px}
+.footer-col a{display:block;color:#cbd5e1;padding:3px 0;font-size:14px}
+.copyright{max-width:1100px;margin:0 auto;padding:0 20px 22px;color:#94a3b8;font-size:13px}
+@media(max-width:640px){h1{font-size:25px}.header-inner{justify-content:center;text-align:center}nav{justify-content:center}.big-speed{font-size:44px}.hero{padding:24px 16px}}
+</style>
+</head>
+<body>
+<header>
+<div class="header-inner">
+<a class="logo" href="index.html">SpeedCheck <span>Pro</span></a>
+<nav>
+<a href="index.html" class="active">Home</a>
+<a href="tools/speed-test.html">Speed Test</a>
+<a href="#tools">Tools</a>
+<a href="#guides">Guides</a>
+<a href="about.html">About</a>
+<a href="contact.html">Contact</a>
+</nav>
+</div>
+</header>
+<main>
+
+<section class="hero">
+<h1>How Fast Is Your Internet, Really?</h1>
+<p>Run a free speed test right in your browser. SpeedCheck Pro measures your real ping, download and upload speeds — no sign-up, no app to install, and no made-up numbers.</p>
+<div class="test-box" id="test-box">
+<div class="big-speed"><span id="big-speed">--</span> <small id="big-unit">Mbps</small></div>
+<div class="phase" id="phase">Ready when you are.</div>
+<div class="progress"><div class="progress-bar" id="progress-bar"></div></div>
+<div class="results">
+<div class="result"><div class="label">Ping</div><div class="value"><span id="res-ping">--</span> <span class="unit">ms</span></div></div>
+<div class="result"><div class="label">Download</div><div class="value"><span id="res-down">--</span> <span class="unit">Mbps</span></div></div>
+<div class="result"><div class="label">Upload</div><div class="value"><span id="res-up">--</span> <span class="unit">Mbps</span></div></div>
+</div>
+<button class="test-btn" id="start-btn" type="button">Start Speed Test</button>
+<div class="error-box" id="error-box">We couldn't reach the test servers. Check your connection and try again.</div>
+<p class="data-warning">A full test can use a few hundred MB of data. If you are on a mobile data plan, connect to Wi-Fi first.</p>
+</div>
+</section>
+
+<section>
+<h2>How to Read Your Speed Test Results</h2>
+<p>Your result has three numbers, and each one tells you something different about your connection. Download speed is the one most people notice first: it decides how quickly web pages open, files arrive, and videos load. If you want the full picture, start with our guide to <a href="guides/download-vs-upload-speed.html">download vs upload speed</a>, which explains what each direction actually does in everyday use.</p>
+<p>Upload speed matters whenever you send data out — video calls, backing up photos, posting a video, or streaming yourself live. On many home plans the upload figure is much smaller than the download figure, and that is normal, though it can still be the bottleneck on a call. A plan that looks fast on paper can feel slow if its upload side is weak.</p>
+<p>Ping is measured in milliseconds and has nothing to do with how much data you can move. It measures delay: how long a tiny message takes to reach a server and come back. Low ping makes everything feel snappy, from opening a page to reacting in a game. Our guide to <a href="guides/what-is-ping-and-why-it-matters.html">what ping is and why it matters</a> explains the numbers in plain terms and what counts as good.</p>
+<p>Finally, compare your result with what your plan promises. A small gap is expected — Wi-Fi, distance from the router, and other people on the network all take a share. A large gap, every time you test, is worth looking into. If you are not sure what figure to aim for, read <a href="guides/what-is-a-good-internet-speed.html">what a good internet speed is</a> for your household size and the things you actually do online.</p>
+</section>
+
+<section>
+<h2>Why Your Result Might Look Disappointing</h2>
+<p>A slow result does not always mean a slow plan. The most common cause is the connection between your device and your router, not the line coming into your home. A weak Wi-Fi signal, a router tucked behind a television, or a neighbour's network on the same channel can all cut your speed in half. Before calling your provider, work through our checklist in <a href="guides/how-to-fix-slow-internet.html">how to fix slow internet</a> — most of the twelve checks take a minute each and cost nothing.</p>
+<p>Where you test from matters too. A test run from a phone in the far bedroom will almost always be slower than one run from a laptop plugged into the router. That is why our guide to <a href="guides/wifi-vs-ethernet.html">Wi-Fi vs Ethernet</a> is worth a read: a wired connection removes most of the guesswork and shows you what your line can really deliver. If the wired result is fast and the wireless one is not, the problem is your Wi-Fi, not your provider.</p>
+<p>Time of day plays a part as well. Many people notice their connection dragging in the evening, when the whole street is streaming at once. That shared slowdown is real, and it has a few different causes — some you can fix and some you cannot. Our article on <a href="guides/why-is-my-internet-slow-at-night.html">why your internet is slow at night</a> walks through each one and what to do about it.</p>
+</section>
+
+<section>
+<h2>Quick Reference: Speed by Activity</h2>
+<p>Different things need different amounts of speed. Use this table as a rough guide — your plan only needs to cover the heaviest thing you do at the same time as everyone else in the house.</p>
+<table>
+<tr><th>Activity</th><th>Speed you need</th><th>Notes</th></tr>
+<tr><td>Web browsing &amp; email</td><td>3–5 Mbps</td><td>Light work; any modern plan covers it.</td></tr>
+<tr><td>HD streaming</td><td>5–8 Mbps</td><td>Per stream; two people watching needs double.</td></tr>
+<tr><td>4K streaming</td><td>15–25 Mbps</td><td>See our guide to <a href="guides/internet-speed-for-streaming-4k.html">internet speed for streaming in 4K</a>.</td></tr>
+<tr><td>Video calls</td><td>3–4 Mbps each way</td><td>Upload matters as much as download — see <a href="guides/internet-speed-for-video-calls.html">internet speed for video calls</a>.</td></tr>
+<tr><td>Online gaming</td><td>3–6 Mbps, ping under 50 ms</td><td>Ping matters more than raw speed — see <a href="guides/internet-speed-for-gaming.html">internet speed for gaming</a>.</td></tr>
+<tr><td>Live streaming (going live)</td><td>10–25 Mbps upload</td><td>Upload is the bottleneck here, not download.</td></tr>
+</table>
+<p>If you are still unsure how much speed your household needs in total, our guide to <a href="guides/how-much-speed-do-i-need.html">how much internet speed you need</a> adds up the usual combinations — one person, a family, a home office — so you can pick a plan without paying for speed you will never use.</p>
+</section>
+
+<section id="tools">
+<h2>Free Tools</h2>
+<p>Four free tools, all running in your browser. No accounts, no downloads.</p>
+<div class="cards">
+<div class="card"><h3><a href="tools/speed-test.html">Speed Test</a></h3><p>Measure your real ping, download and upload speeds in under a minute.</p><a class="card-link" href="tools/speed-test.html">Run the test &rarr;</a></div>
+<div class="card"><h3><a href="tools/ping-test.html">Ping Test</a></h3><p>Check your latency and connection stability with repeated ping samples.</p><a class="card-link" href="tools/ping-test.html">Test your ping &rarr;</a></div>
+<div class="card"><h3><a href="tools/download-time-calculator.html">Download Time Calculator</a></h3><p>Work out how long a file will take to download at your speed.</p><a class="card-link" href="tools/download-time-calculator.html">Calculate download time &rarr;</a></div>
+<div class="card"><h3><a href="tools/speed-requirements-checker.html">Speed Requirements Checker</a></h3><p>See whether your speed is enough for streaming, gaming and calls.</p><a class="card-link" href="tools/speed-requirements-checker.html">Check your speed &rarr;</a></div>
+</div>
+</section>
+
+<section id="guides">
+<h2>Guides &amp; Articles</h2>
+<p>Plain-English guides that explain internet speed without the jargon — what the numbers mean, what to buy, and how to fix a slow connection.</p>
+<div class="cards">
+<div class="guide-card"><img src="images/what-is-a-good-internet-speed.jpg" alt="What Is a Good Internet Speed?"><div class="guide-body"><h3><a href="guides/what-is-a-good-internet-speed.html">What Is a Good Internet Speed?</a></h3><p>How much speed a household really needs, and how to tell if your plan is too slow — or more than you need.</p><a class="card-link" href="guides/what-is-a-good-internet-speed.html">Read the guide &rarr;</a></div></div>
+<div class="guide-card"><img src="images/download-vs-upload-speed.jpg" alt="Download vs Upload Speed: What's the Difference?"><div class="guide-body"><h3><a href="guides/download-vs-upload-speed.html">Download vs Upload Speed: What's the Difference?</a></h3><p>Why your plan lists two speeds, which one matters for what, and why uploads are usually slower.</p><a class="card-link" href="guides/download-vs-upload-speed.html">Read the guide &rarr;</a></div></div>
+<div class="guide-card"><img src="images/what-is-ping-and-why-it-matters.jpg" alt="What Is Ping and Why Does It Matter?"><div class="guide-body"><h3><a href="guides/what-is-ping-and-why-it-matters.html">What Is Ping and Why Does It Matter?</a></h3><p>Ping explained in plain English: what the milliseconds mean, what is good, and how to lower them.</p><a class="card-link" href="guides/what-is-ping-and-why-it-matters.html">Read the guide &rarr;</a></div></div>
+<div class="guide-card"><img src="images/how-to-fix-slow-internet.jpg" alt="How to Fix Slow Internet: 12 Things to Check"><div class="guide-body"><h3><a href="guides/how-to-fix-slow-internet.html">How to Fix Slow Internet: 12 Things to Check</a></h3><p>A step-by-step checklist that fixes most slow connections before you ever need to call your provider.</p><a class="card-link" href="guides/how-to-fix-slow-internet.html">Read the guide &rarr;</a></div></div>
+<div class="guide-card"><img src="images/wifi-vs-ethernet.jpg" alt="Wi-Fi vs Ethernet: Which Is Faster?"><div class="guide-body"><h3><a href="guides/wifi-vs-ethernet.html">Wi-Fi vs Ethernet: Which Is Faster?</a></h3><p>A fair comparison of wired and wireless connections, and when a cable is worth the effort.</p><a class="card-link" href="guides/wifi-vs-ethernet.html">Read the guide &rarr;</a></div></div>
+<div class="guide-card"><img src="images/how-to-test-internet-speed-accurately.jpg" alt="How to Test Your Internet Speed Accurately"><div class="guide-body"><h3><a href="guides/how-to-test-internet-speed-accurately.html">How to Test Your Internet Speed Accurately</a></h3><p>Small mistakes make test results misleading. Here is how to test properly and trust the number you get.</p><a class="card-link" href="guides/how-to-test-internet-speed-accurately.html">Read the guide &rarr;</a></div></div>
+<div class="guide-card"><img src="images/what-is-jitter-and-packet-loss.jpg" alt="What Is Jitter and Packet Loss?"><div class="guide-body"><h3><a href="guides/what-is-jitter-and-packet-loss.html">What Is Jitter and Packet Loss?</a></h3><p>Two hidden causes of choppy calls and laggy games, explained simply — plus how to spot them.</p><a class="card-link" href="guides/what-is-jitter-and-packet-loss.html">Read the guide &rarr;</a></div></div>
+<div class="guide-card"><img src="images/internet-speed-for-gaming.jpg" alt="Internet Speed for Gaming: What You Really Need"><div class="guide-body"><h3><a href="guides/internet-speed-for-gaming.html">Internet Speed for Gaming: What You Really Need</a></h3><p>Gaming needs far less speed than ads suggest — but ping and stability matter a great deal.</p><a class="card-link" href="guides/internet-speed-for-gaming.html">Read the guide &rarr;</a></div></div>
+<div class="guide-card"><img src="images/internet-speed-for-streaming-4k.jpg" alt="Internet Speed for Streaming in 4K"><div class="guide-body"><h3><a href="guides/internet-speed-for-streaming-4k.html">Internet Speed for Streaming in 4K</a></h3><p>How much speed 4K really needs, why it buffers even on fast plans, and how to fix it.</p><a class="card-link" href="guides/internet-speed-for-streaming-4k.html">Read the guide &rarr;</a></div></div>
+<div class="guide-card"><img src="images/internet-speed-for-video-calls.jpg" alt="Internet Speed for Video Calls"><div class="guide-body"><h3><a href="guides/internet-speed-for-video-calls.html">Internet Speed for Video Calls</a></h3><p>What Zoom, Teams and Meet actually need, and why your upload speed decides your call quality.</p><a class="card-link" href="guides/internet-speed-for-video-calls.html">Read the guide &rarr;</a></div></div>
+<div class="guide-card"><img src="images/how-much-speed-do-i-need.jpg" alt="How Much Internet Speed Do I Need?"><div class="guide-body"><h3><a href="guides/how-much-speed-do-i-need.html">How Much Internet Speed Do I Need?</a></h3><p>Add up your household's real usage and pick a plan that fits — without overpaying for speed you will not use.</p><a class="card-link" href="guides/how-much-speed-do-i-need.html">Read the guide &rarr;</a></div></div>
+<div class="guide-card"><img src="images/why-is-my-internet-slow-at-night.jpg" alt="Why Is My Internet Slow at Night?"><div class="guide-body"><h3><a href="guides/why-is-my-internet-slow-at-night.html">Why Is My Internet Slow at Night?</a></h3><p>Evening slowdowns explained: shared networks, peak hours, and the fixes that actually help.</p><a class="card-link" href="guides/why-is-my-internet-slow-at-night.html">Read the guide &rarr;</a></div></div>
+<div class="guide-card"><img src="images/how-to-improve-wifi-signal.jpg" alt="How to Improve Your Wi-Fi Signal"><div class="guide-body"><h3><a href="guides/how-to-improve-wifi-signal.html">How to Improve Your Wi-Fi Signal</a></h3><p>Practical ways to get stronger Wi-Fi in every room, from router placement to simple settings changes.</p><a class="card-link" href="guides/how-to-improve-wifi-signal.html">Read the guide &rarr;</a></div></div>
+<div class="guide-card"><img src="images/fiber-vs-cable-vs-dsl.jpg" alt="Fiber vs Cable vs DSL: Which Is Best?"><div class="guide-body"><h3><a href="guides/fiber-vs-cable-vs-dsl.html">Fiber vs Cable vs DSL: Which Is Best?</a></h3><p>The three main home internet types compared on speed, reliability and value — and which to choose.</p><a class="card-link" href="guides/fiber-vs-cable-vs-dsl.html">Read the guide &rarr;</a></div></div>
+<div class="guide-card"><img src="images/what-is-mbps-and-gbps.jpg" alt="What Is Mbps and Gbps?"><div class="guide-body"><h3><a href="guides/what-is-mbps-and-gbps.html">What Is Mbps and Gbps?</a></h3><p>The units behind every speed figure, explained once and for all — including the bits-vs-bytes trap.</p><a class="card-link" href="guides/what-is-mbps-and-gbps.html">Read the guide &rarr;</a></div></div>
+<div class="guide-card"><img src="images/internet-speed-for-working-from-home.jpg" alt="Internet Speed for Working From Home"><div class="guide-body"><h3><a href="guides/internet-speed-for-working-from-home.html">Internet Speed for Working From Home</a></h3><p>What a home office really needs for calls, file sharing and cloud apps — plus a backup-plan checklist.</p><a class="card-link" href="guides/internet-speed-for-working-from-home.html">Read the guide &rarr;</a></div></div>
+<div class="guide-card"><img src="images/how-to-lower-ping-in-games.jpg" alt="How to Lower Ping in Games"><div class="guide-body"><h3><a href="guides/how-to-lower-ping-in-games.html">How to Lower Ping in Games</a></h3><p>Proven ways to cut lag: wired connections, server choice, background apps and router settings.</p><a class="card-link" href="guides/how-to-lower-ping-in-games.html">Read the guide &rarr;</a></div></div>
+<div class="guide-card"><img src="images/does-vpn-affect-internet-speed.jpg" alt="Does a VPN Affect Internet Speed?"><div class="guide-body"><h3><a href="guides/does-vpn-affect-internet-speed.html">Does a VPN Affect Internet Speed?</a></h3><p>Yes, a VPN usually slows you down — here is how much, why, and how to keep the slowdown small.</p><a class="card-link" href="guides/does-vpn-affect-internet-speed.html">Read the guide &rarr;</a></div></div>
+<div class="guide-card"><img src="images/router-placement-guide.jpg" alt="Router Placement Guide: Where to Put Your Router"><div class="guide-body"><h3><a href="guides/router-placement-guide.html">Router Placement Guide: Where to Put Your Router</a></h3><p>Where to place your router for the best coverage, and the common spots that quietly kill your signal.</p><a class="card-link" href="guides/router-placement-guide.html">Read the guide &rarr;</a></div></div>
+<div class="guide-card"><img src="images/5g-home-internet-vs-broadband.jpg" alt="5G Home Internet vs Broadband"><div class="guide-body"><h3><a href="guides/5g-home-internet-vs-broadband.html">5G Home Internet vs Broadband</a></h3><p>Can 5G home internet replace a wired connection? An honest comparison of speed, stability and cost.</p><a class="card-link" href="guides/5g-home-internet-vs-broadband.html">Read the guide &rarr;</a></div></div>
+</div>
+<div class="browse-all"><a href="#guides">Browse all guides</a></div>
+</section>
+
+<section>
+<h2>Frequently Asked Questions</h2>
+<div class="faq-item"><h3>How does the SpeedCheck Pro speed test work?</h3><p>When you press Start, your browser first sends a few tiny requests to a test server to measure ping. It then downloads test data in parallel streams and times how fast it arrives, and finally uploads a block of test data to measure your upload speed. Every number shown is a real measurement of your connection at that moment — nothing is estimated or filled in.</p></div>
+<div class="faq-item"><h3>What is a good internet speed?</h3><p>For most households, 25 Mbps is enough for browsing, HD streaming and video calls, while 100 Mbps comfortably covers a family streaming and working at the same time. Heavy users — several 4K streams, large downloads, or competitive gaming — will notice the difference at 200 Mbps and above. The right speed depends on how many people share your connection and what they do at the same time.</p></div>
+<div class="faq-item"><h3>Why is my result slower than my plan speed?</h3><p>Your plan speed is the maximum your line can deliver, not a guarantee at your device. Wi-Fi signal, distance from the router, other people using the connection, and the device itself can all reduce the result. Test with a wired connection, close to the router, with other downloads paused, to see what your line can really do — then compare that with the wireless result.</p></div>
+<div class="faq-item"><h3>What is ping?</h3><p>Ping is the time, in milliseconds, for a small message to travel from your device to a server and back. Under 20 ms is excellent, 20–50 ms is good for most things including gaming, and above 100 ms you will start to feel delays in calls and games. Ping depends mostly on distance and the quality of your connection, not on your download speed.</p></div>
+<div class="faq-item"><h3>How much data does a speed test use?</h3><p>A full test can use a few hundred megabytes, because measuring a fast connection accurately requires downloading and uploading a fair amount of test data. On an unlimited home connection that does not matter, but on a capped mobile plan it can eat into your allowance — so use Wi-Fi for speed tests whenever you can.</p></div>
+<div class="faq-item"><h3>Is Wi-Fi or Ethernet faster?</h3><p>Ethernet is almost always faster and more stable, because a cable is not affected by walls, distance or interference from other networks. Wi-Fi is convenient and good enough for most uses, especially on a modern router close by — but for the most accurate test result, and for competitive gaming or large uploads, a wired connection wins.</p></div>
+</section>
+
+</main>
+<footer>
+<div class="footer-inner">
+<div class="footer-col"><h4>SpeedCheck Pro</h4><a href="index.html">Home</a><a href="tools/speed-test.html">Speed Test</a><a href="#tools">All Tools</a><a href="#guides">All Guides</a></div>
+<div class="footer-col"><h4>Popular Guides</h4><a href="guides/what-is-a-good-internet-speed.html">What Is a Good Internet Speed?</a><a href="guides/how-to-fix-slow-internet.html">How to Fix Slow Internet</a><a href="guides/what-is-ping-and-why-it-matters.html">What Is Ping?</a></div>
+<div class="footer-col"><h4>Information</h4><a href="about.html">About Us</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy Policy</a><a href="disclaimer.html">Disclaimer</a></div>
+</div>
+<p class="copyright">SpeedCheck Pro is an independent guide site. Speed test results are measured from your own connection in your browser. &copy; 2026 SpeedCheck Pro.</p>
+</footer>
+<script>
+(function () {
+  var DOWN_URL = "https://speed.cloudflare.com/__down";
+  var UP_URL = "https://speed.cloudflare.com/__up";
+  var startBtn = document.getElementById("start-btn");
+  var bigSpeed = document.getElementById("big-speed");
+  var phaseEl = document.getElementById("phase");
+  var barEl = document.getElementById("progress-bar");
+  var errorBox = document.getElementById("error-box");
+  var resPing = document.getElementById("res-ping");
+  var resDown = document.getElementById("res-down");
+  var resUp = document.getElementById("res-up");
+
+  function setPhase(text) { phaseEl.textContent = text; }
+  function setProgress(pct) { barEl.style.width = pct + "%"; }
+  function showError() {
+    errorBox.style.display = "block";
+    bigSpeed.textContent = "--";
+    resPing.textContent = "--";
+    resDown.textContent = "--";
+    resUp.textContent = "--";
+    setPhase("Test stopped.");
+    setProgress(0);
+  }
+  function fetchWithTimeout(url, options, timeoutMs) {
+    var controller = new AbortController();
+    var timer = setTimeout(function () { controller.abort(); }, timeoutMs);
+    var opts = options || {};
+    opts.signal = controller.signal;
+    return fetch(url, opts).then(function (res) {
+      clearTimeout(timer);
+      if (!res.ok) { throw new Error("HTTP " + res.status); }
+      return res;
+    }).catch(function (err) {
+      clearTimeout(timer);
+      throw err;
+    });
+  }
+
+  function measurePing() {
+    var samples = [];
+    var chain = Promise.resolve();
+    for (var i = 0; i < 5; i++) {
+      chain = chain.then(function () {
+        var t0 = performance.now();
+        return fetchWithTimeout(DOWN_URL + "?bytes=0", { cache: "no-store" }, 10000)
+          .then(function (res) { return res.arrayBuffer(); })
+          .then(function () { samples.push(performance.now() - t0); });
+      });
+    }
+    return chain.then(function () {
+      var sum = 0;
+      var min = samples[0];
+      for (var j = 0; j < samples.length; j++) {
+        sum += samples[j];
+        if (samples[j] < min) { min = samples[j]; }
+      }
+      return { avg: sum / samples.length, min: min };
+    });
+  }
+
+  function downloadStream(bytes, onBytes) {
+    return fetchWithTimeout(DOWN_URL + "?bytes=" + bytes, { cache: "no-store" }, 60000)
+      .then(function (res) {
+        var reader = res.body.getReader();
+        var total = 0;
+        function pump() {
+          return reader.read().then(function (result) {
+            if (result.done) { return total; }
+            total += result.value.length;
+            if (onBytes) { onBytes(result.value.length); }
+            return pump();
+          });
+        }
+        return pump();
+      });
+  }
+
+  function measureDownload() {
+    var downloaded = 0;
+    var startTime = performance.now();
+    function liveUpdate() {
+      var elapsed = (performance.now() - startTime) / 1000;
+      if (elapsed > 0 && downloaded > 0) {
+        bigSpeed.textContent = ((downloaded * 8) / elapsed / 1000000).toFixed(1);
+      }
+    }
+    return downloadStream(1000000, function (n) { downloaded += n; liveUpdate(); })
+      .then(function () {
+        var probeElapsed = (performance.now() - startTime) / 1000;
+        var probeMbps = (downloaded * 8) / probeElapsed / 1000000;
+        var streamBytes;
+        if (probeMbps >= 50) { streamBytes = 25000000; }
+        else if (probeMbps >= 10) { streamBytes = 10000000; }
+        else { streamBytes = 1000000; }
+        var streams = 4;
+        var jobs = [];
+        var t1 = performance.now();
+        for (var s = 0; s < streams; s++) {
+          jobs.push(downloadStream(streamBytes, function (n) { downloaded += n; liveUpdate(); }));
+        }
+        return Promise.all(jobs).then(function (counts) {
+          var totalBytes = 0;
+          for (var k = 0; k < counts.length; k++) { totalBytes += counts[k]; }
+          var elapsed = (performance.now() - t1) / 1000;
+          return (totalBytes * 8) / elapsed / 1000000;
+        });
+      });
+  }
+
+  function measureUpload(downloadMbps) {
+    var size;
+    if (downloadMbps >= 50) { size = 10000000; }
+    else if (downloadMbps >= 10) { size = 5000000; }
+    else { size = 1000000; }
+    var payload = new Uint8Array(size);
+    payload.fill(65);
+    var t0 = performance.now();
+    return fetchWithTimeout(UP_URL, { method: "POST", body: payload, cache: "no-store" }, 60000)
+      .then(function (res) { return res.text(); })
+      .then(function () {
+        var elapsed = (performance.now() - t0) / 1000;
+        return (size * 8) / elapsed / 1000000;
+      });
+  }
+
+  function runTest() {
+    startBtn.disabled = true;
+    startBtn.textContent = "Testing...";
+    errorBox.style.display = "none";
+    bigSpeed.textContent = "--";
+    resPing.textContent = "--";
+    resDown.textContent = "--";
+    resUp.textContent = "--";
+    setProgress(0);
+    setPhase("Ping — measuring latency...");
+    measurePing()
+      .then(function (ping) {
+        resPing.textContent = ping.avg.toFixed(0);
+        setPhase("Ping: " + ping.avg.toFixed(0) + " ms average (best " + ping.min.toFixed(0) + " ms) — now measuring download...");
+        setProgress(15);
+        return measureDownload();
+      })
+      .then(function (downMbps) {
+        resDown.textContent = downMbps.toFixed(1);
+        bigSpeed.textContent = downMbps.toFixed(1);
+        setPhase("Download: " + downMbps.toFixed(1) + " Mbps — now measuring upload...");
+        setProgress(65);
+        return measureUpload(downMbps).then(function (upMbps) {
+          return { down: downMbps, up: upMbps };
+        });
+      })
+      .then(function (result) {
+        resUp.textContent = result.up.toFixed(1);
+        bigSpeed.textContent = result.down.toFixed(1);
+        setPhase("Done — Download " + result.down.toFixed(1) + " Mbps, Upload " + result.up.toFixed(1) + " Mbps.");
+        setProgress(100);
+        startBtn.disabled = false;
+        startBtn.textContent = "Test Again";
+      })
+      .catch(function () {
+        showError();
+        startBtn.disabled = false;
+        startBtn.textContent = "Start Speed Test";
+      });
+  }
+
+  startBtn.addEventListener("click", runTest);
+})();
+</script>
+</body>
+</html>
