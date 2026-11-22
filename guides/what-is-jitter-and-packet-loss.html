@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What Is Jitter and Packet Loss? | SpeedCheck Pro</title>
+<meta name="description" content="Jitter and packet loss cause lag, stuttering calls and rubber-banding in games. Learn what they mean, what causes them, and how to fix them.">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:#f8fafc;color:#1e293b;line-height:1.7}
+a{color:#0891b2;text-decoration:none}
+a:hover{text-decoration:underline}
+header{background:#0f172a;border-bottom:3px solid #06b6d4;position:sticky;top:0;z-index:100}
+.header-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 20px;flex-wrap:wrap;gap:10px}
+.logo{font-size:23px;font-weight:800;color:#fff;letter-spacing:.3px}
+.logo span{color:#06b6d4}
+nav{display:flex;gap:4px;flex-wrap:wrap}
+nav a{color:#cbd5e1;padding:8px 12px;border-radius:6px;font-size:15px;font-weight:600}
+nav a:hover{background:#1e293b;color:#06b6d4;text-decoration:none}
+nav a.active{background:#06b6d4;color:#0f172a}
+main{max-width:900px;margin:0 auto;padding:24px 20px 40px}
+.breadcrumb{font-size:13px;color:#64748b;margin-bottom:12px}
+.breadcrumb a{color:#64748b}
+h1{font-size:31px;line-height:1.25;margin-bottom:8px;color:#0f172a}
+.meta{color:#64748b;font-size:14px;margin-bottom:20px}
+.hero-img{width:100%;height:auto;border-radius:10px;margin-bottom:24px;border:1px solid #e2e8f0}
+h2{font-size:23px;color:#0f172a;margin:28px 0 10px;padding-bottom:6px;border-bottom:2px solid #cffafe}
+h3{font-size:18px;color:#0f172a;margin:20px 0 8px}
+p{margin-bottom:14px}
+ul,ol{margin:0 0 14px 24px}
+li{margin-bottom:6px}
+.tip{background:#ecfeff;border-left:4px solid #06b6d4;padding:14px 16px;border-radius:0 8px 8px 0;margin:20px 0}
+.tip strong{color:#0e7490}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:15px}
+th,td{border:1px solid #e2e8f0;padding:9px 12px;text-align:left}
+th{background:#0f172a;color:#fff}
+.faq{margin-top:10px}
+.faq-item{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:16px;margin-bottom:12px}
+.faq-item h3{margin:0 0 6px;font-size:17px;color:#0e7490}
+.faq-item p{margin:0}
+.related{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:18px;margin-top:32px}
+.related h3{margin-top:0}
+.related ul{margin-bottom:0}
+.cta-box{background:#0f172a;border-radius:12px;padding:24px;margin-top:32px;text-align:center}
+.cta-box h3{color:#fff;font-size:20px;margin:0 0 6px}
+.cta-box p{color:#cbd5e1;margin-bottom:16px}
+.cta-box a{display:inline-block;background:#06b6d4;color:#fff;font-weight:700;padding:12px 24px;border-radius:8px}
+.cta-box a:hover{background:#0891b2;text-decoration:none}
+footer{background:#0f172a;color:#cbd5e1;margin-top:40px}
+.footer-inner{max-width:1100px;margin:0 auto;padding:28px 20px;display:flex;flex-wrap:wrap;gap:28px;justify-content:space-between}
+.footer-col h4{color:#06b6d4;margin-bottom:10px;font-size:16px}
+.footer-col a{display:block;color:#cbd5e1;padding:3px 0;font-size:14px}
+.copyright{max-width:1100px;margin:0 auto;padding:0 20px 22px;color:#94a3b8;font-size:13px}
+@media(max-width:640px){h1{font-size:25px}.header-inner{justify-content:center;text-align:center}nav{justify-content:center}}
+</style>
+</head>
+<body>
+<header>
+<div class="header-inner">
+<a class="logo" href="../index.html">SpeedCheck <span>Pro</span></a>
+<nav>
+<a href="../index.html">Home</a>
+<a href="../tools/speed-test.html">Speed Test</a>
+<a href="../index.html#tools">Tools</a>
+<a href="../index.html#guides" class="active">Guides</a>
+<a href="../about.html">About</a>
+<a href="../contact.html">Contact</a>
+</nav>
+</div>
+</header>
+<main>
+<div class="breadcrumb"><a href="../index.html">Home</a> / <a href="../index.html#guides">Guides</a> / What Is Jitter and Packet Loss?</div>
+<article>
+<h1>What Is Jitter and Packet Loss?</h1>
+<p class="meta">SpeedCheck Pro Guide &bull; Updated November 2026 &bull; 5 min read</p>
+<img class="hero-img" src="../images/what-is-jitter-and-packet-loss.jpg" alt="Network cables plugged into a home router with blinking lights">
+<p>Your download speed can look perfect on a test, yet your video call still freezes and your game character still jumps across the screen. When that happens, the problem is usually not speed at all. It is jitter or packet loss, two measures of connection quality that a headline speed figure never shows. They are the reason a fast connection can still feel broken, and once you understand them, most lag and stuttering becomes much easier to diagnose and fix.</p>
+<h2>What Is Jitter?</h2>
+<p>When you send data across the internet, it travels in small pieces called packets. Ping measures how long one packet takes to reach its destination and come back. Jitter measures how much that time varies from one packet to the next. If every packet takes 20 milliseconds, jitter is near zero and the connection feels smooth. If one takes 20 milliseconds, the next 90, and the next 35, that is high jitter. Real-time apps suffer most, because they expect a steady flow of data. A voice call with high jitter sounds robotic or choppy, and a game with high jitter feels unresponsive even when the average ping looks fine. For a fuller picture of delay, read our guide to <a href="what-is-ping-and-why-it-matters.html">what ping is and why it matters</a>.</p>
+<h2>What Is Packet Loss?</h2>
+<p>Packet loss happens when some of those small data packets never arrive at all. The internet copes with a little of this: the missing pieces are simply sent again. But when too many go missing, the resending itself causes delays, and some data arrives too late to be useful. In a video call, lost packets show up as frozen faces, garbled words, or moments where the other person seems to talk over you. In a game, they cause rubber-banding, where your character snaps back to an earlier position, or actions that never register. In a file download, packet loss just slows things down, which is why it is far more painful in live apps than in browsing. Even 2 to 3 percent packet loss is noticeable in a call or a game, and above 5 percent makes real-time apps hard to use.</p>
+<h2>What Causes Jitter and Packet Loss?</h2>
+<p>Both problems usually come from congestion or a weak link somewhere on the path your data takes. A common cause at home is Wi-Fi interference: a weak signal, thick walls, or dozens of neighbouring networks competing on the same channel can corrupt packets before they even leave the house. An overloaded router, or a connection shared by too many streaming and downloading devices at once, has the same effect. Outside the home, congestion on your provider's network at peak hours, a faulty cable, or a long route to the game or call server can all add jitter and loss. Old or damaged ethernet cables are a surprisingly common cause too, and they are cheap to rule out.</p>
+<h2>How to Measure Jitter and Packet Loss</h2>
+<p>Many speed tests now report jitter alongside ping, which gives you a quick first check. For packet loss, run a test that sends a stream of packets over a minute or so and reports how many never arrived. Test over a wired connection first, because that tells you whether the problem is your broadband line or your Wi-Fi. If the wired test is clean but the Wi-Fi test shows loss, the fault is inside your home. If both show loss, the problem is further upstream, and your provider needs to know. Always test more than once, since one bad minute of congestion can look like a permanent fault.</p>
+<table>
+<tr><th>Measurement</th><th>Good</th><th>Poor</th></tr>
+<tr><td>Jitter</td><td>Under 10 ms</td><td>Over 30 ms</td></tr>
+<tr><td>Packet loss</td><td>Under 1%</td><td>Over 5%</td></tr>
+<tr><td>Ping</td><td>Under 20 ms</td><td>Over 100 ms</td></tr>
+</table>
+<h2>How to Reduce Jitter and Packet Loss</h2>
+<p>Start with the simplest fixes. Plug your computer or console into the router with an ethernet cable, which removes Wi-Fi interference entirely. If you must use Wi-Fi, move closer to the router and switch to the 5 GHz band, which is usually less crowded. Restart the router, and check that its firmware is up to date, since updates often fix stability bugs. Close downloads and cloud backups while you are on a call or playing, and ask others in the house to pause heavy streaming. If the problem continues on a wired connection at all hours, contact your provider with your test results and ask them to check the line. Gamers can also follow our <a href="how-to-lower-ping-in-games.html">how to lower ping in games</a> guide, and our <a href="internet-speed-for-gaming.html">internet speed for gaming</a> guide explains why a steady connection matters more than raw speed.</p>
+<div class="tip"><strong>Tip:</strong> If only one device suffers while others are fine, the fault is probably that device or its Wi-Fi adapter, not your broadband. Test a second device in the same spot before blaming the connection.</div>
+<p>Jitter and packet loss are easy to overlook because most people only check download speed. But for calls, games, and live streaming, a steady connection beats a fast one every time. A 50 Mbps line with low jitter will feel better in a game than a 500 Mbps line that keeps dropping packets. Measure all four numbers, fix the weak link, and the stuttering usually goes away without any upgrade. Our guide to <a href="how-to-test-internet-speed-accurately.html">how to test internet speed accurately</a> shows the method step by step.</p>
+<div class="faq">
+<h2>Frequently Asked Questions</h2>
+<div class="faq-item"><h3>What is a good jitter value?</h3><p>Under 10 milliseconds is good, and under 5 milliseconds is excellent. Jitter above 30 milliseconds will be noticeable in voice calls and online games.</p></div>
+<div class="faq-item"><h3>How much packet loss is acceptable?</h3><p>Under 1 percent is fine for most uses. Between 1 and 2 percent you may notice occasional glitches, and above 5 percent calls and games become difficult.</p></div>
+<div class="faq-item"><h3>Can a faster plan fix jitter and packet loss?</h3><p>Usually not. These are quality problems, not speed problems. A faster plan on the same faulty line or weak Wi-Fi will show the same jitter and loss.</p></div>
+</div>
+<div class="related">
+<h3>Related Guides</h3>
+<ul>
+<li><a href="what-is-ping-and-why-it-matters.html">What Is Ping and Why It Matters?</a></li>
+<li><a href="internet-speed-for-gaming.html">Internet Speed for Gaming</a></li>
+<li><a href="internet-speed-for-video-calls.html">Internet Speed for Video Calls</a></li>
+</ul>
+</div>
+<div class="cta-box">
+<h3>Test Your Connection Now</h3>
+<p>Run a free speed test and see your real ping, download and upload speeds in under a minute.</p>
+<a href="../tools/speed-test.html">Start Speed Test</a>
+</div>
+</article>
+</main>
+<footer>
+<div class="footer-inner">
+<div class="footer-col"><h4>SpeedCheck Pro</h4><a href="../index.html">Home</a><a href="../tools/speed-test.html">Speed Test</a><a href="../index.html#tools">All Tools</a><a href="../index.html#guides">All Guides</a></div>
+<div class="footer-col"><h4>Popular Guides</h4><a href="what-is-a-good-internet-speed.html">What Is a Good Internet Speed?</a><a href="how-to-fix-slow-internet.html">How to Fix Slow Internet</a><a href="what-is-ping-and-why-it-matters.html">What Is Ping?</a></div>
+<div class="footer-col"><h4>Information</h4><a href="../about.html">About Us</a><a href="../contact.html">Contact</a><a href="../privacy.html">Privacy Policy</a><a href="../disclaimer.html">Disclaimer</a></div>
+</div>
+<p class="copyright">SpeedCheck Pro is an independent guide site. Speed test results are measured from your own connection in your browser. &copy; 2026 SpeedCheck Pro.</p>
+</footer>
+</body>
+</html>
