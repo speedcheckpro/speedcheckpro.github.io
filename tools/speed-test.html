@@ -39,12 +39,26 @@ li{margin-bottom:6px}
 .error-detail{font-size:13px;color:#64748b}
 /* Speed test widget */
 .test-card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:28px 20px;margin:20px 0;text-align:center;box-shadow:0 1px 3px rgba(15,23,42,.06)}
-.gauge-wrap{position:relative;width:240px;height:240px;margin:0 auto 8px}
-.gauge-wrap svg{transform:rotate(-90deg)}
-.gauge-num{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.gauge-num .big{font-size:52px;font-weight:800;color:#0f172a;line-height:1.05}
-.gauge-num .unit{font-size:16px;color:#64748b;font-weight:600}
-.gauge-num .phase-label{font-size:14px;color:#0e7490;font-weight:700;margin-top:6px;min-height:20px}
+[hidden]{display:none!important}
+/* Circular speedometer gauge */
+.gauge{position:relative;width:min(320px,100%);margin:0 auto}
+.gauge-svg{display:block;width:100%;height:auto}
+.gauge-track{fill:none;stroke:#e2e8f0;stroke-width:16}
+.gauge-arc{fill:none;stroke:#06b6d4;stroke-width:16;stroke-linecap:round;stroke-dasharray:659.74 879.65;stroke-dashoffset:659.74;transition:stroke-dashoffset .25s ease}
+.tick{stroke:#cbd5e1;stroke-width:2}
+.tick.major{stroke:#94a3b8;stroke-width:3}
+.needle{fill:#0f172a}
+.gauge-hub{fill:#0f172a;stroke:#fff;stroke-width:2}
+#needleG{transform-box:view-box;transform-origin:center;transition:transform .3s ease}
+.gauge-center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
+.go-btn{pointer-events:auto;width:clamp(96px,30vw,128px);height:clamp(96px,30vw,128px);border-radius:50%;border:none;background:#06b6d4;color:#fff;font-size:clamp(26px,7vw,34px);font-weight:800;letter-spacing:1px;cursor:pointer;box-shadow:0 0 0 6px rgba(6,182,212,.18),0 8px 20px rgba(6,182,212,.35)}
+.go-btn:hover{background:#0891b2}
+.go-btn:disabled{background:#94a3b8;cursor:not-allowed}
+.gauge-readout{text-align:center;pointer-events:none}
+.gauge-num{font-size:clamp(42px,12vw,58px);font-weight:800;color:#0f172a;line-height:1.05}
+.gauge-num small{font-size:clamp(15px,4vw,18px);color:#64748b;font-weight:600}
+.gauge-phase{font-size:clamp(13px,3.5vw,15px);font-weight:700;color:#0e7490;margin-top:4px;min-height:22px}
+.server-line{font-size:13px;color:#64748b;margin-top:12px}
 .steps{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:18px 0 6px}
 .step{padding:6px 14px;border-radius:999px;background:#f1f5f9;color:#64748b;font-size:14px;font-weight:700}
 .step.active{background:#06b6d4;color:#fff}
@@ -79,7 +93,8 @@ footer{background:#0f172a;color:#cbd5e1;margin-top:40px}
 .footer-col h4{color:#06b6d4;margin-bottom:10px;font-size:16px}
 .footer-col a{display:block;color:#cbd5e1;padding:3px 0;font-size:14px}
 .copyright{max-width:1100px;margin:0 auto;padding:0 20px 22px;color:#94a3b8;font-size:13px}
-@media(max-width:640px){h1{font-size:25px}.header-inner{justify-content:center;text-align:center}nav{justify-content:center}.results{grid-template-columns:1fr}.gauge-wrap{width:200px;height:200px}.gauge-num .big{font-size:42px}}
+@media(max-width:640px){h1{font-size:25px}.header-inner{justify-content:center;text-align:center}nav{justify-content:center}.results{grid-template-columns:1fr}}
+@media(max-width:480px){.test-card{padding:20px 14px}}
 </style>
 </head>
 <body>
@@ -102,15 +117,20 @@ footer{background:#0f172a;color:#cbd5e1;margin-top:40px}
 <p class="meta">Free speed test &bull; Measures your real ping, download and upload speed &bull; No sign-up</p>
 
 <div class="test-card">
-<div class="gauge-wrap">
-<svg width="240" height="240" viewBox="0 0 240 240" aria-hidden="true">
-<circle cx="120" cy="120" r="104" fill="none" stroke="#e2e8f0" stroke-width="16"/>
-<circle id="gaugeArc" cx="120" cy="120" r="104" fill="none" stroke="#06b6d4" stroke-width="16" stroke-linecap="round" stroke-dasharray="653.45" stroke-dashoffset="653.45"/>
+<div class="gauge" id="gauge">
+<svg class="gauge-svg" viewBox="0 0 320 320" role="img" aria-label="Speed gauge">
+<g id="gaugeTicks"></g>
+<circle class="gauge-track" cx="160" cy="160" r="140"/>
+<circle class="gauge-arc" id="gaugeArc" cx="160" cy="160" r="140" transform="rotate(135 160 160)"/>
+<g id="needleG" transform="rotate(-135 160 160)"><polygon class="needle" points="160,54 155,160 165,160"/></g>
+<circle class="gauge-hub" cx="160" cy="160" r="12"/>
 </svg>
-<div class="gauge-num">
-<span class="big" id="bigNumber">--</span>
-<span class="unit" id="bigUnit">Mbps</span>
-<span class="phase-label" id="phaseLabel">Ready when you are</span>
+<div class="gauge-center">
+<button class="go-btn" id="startBtn" type="button" aria-label="Start speed test">GO</button>
+<div class="gauge-readout" id="gaugeReadout" hidden>
+<div class="gauge-num"><span id="bigNumber">--</span> <small id="bigUnit">Mbps</small></div>
+<div class="gauge-phase" id="phaseLabel">READY</div>
+</div>
 </div>
 </div>
 
@@ -144,8 +164,9 @@ footer{background:#0f172a;color:#cbd5e1;margin-top:40px}
 <p class="error-detail" id="errorDetail"></p>
 </div>
 
-<button class="btn" id="startBtn">Start Test</button>
+<button class="btn secondary" id="againBtn" hidden>Test Again</button>
 <p class="progress-note" id="progressNote">The test takes about 25 seconds.</p>
+<p class="server-line">Test servers: Cloudflare</p>
 </div>
 
 <div class="warning">
@@ -220,13 +241,17 @@ footer{background:#0f172a;color:#cbd5e1;margin-top:40px}
 
   var DOWN_URL = 'https://speed.cloudflare.com/__down';
   var UP_URL = 'https://speed.cloudflare.com/__up';
-  var CIRCUMFERENCE = 653.45; // 2 * pi * 104
+  var ARC_LEN = 659.74; // 75% of 2 * pi * 140 (270-degree gauge arc)
+  var ARC_TOTAL = 879.65; // 2 * pi * 140
 
   var bigNumber = document.getElementById('bigNumber');
   var bigUnit = document.getElementById('bigUnit');
   var phaseLabel = document.getElementById('phaseLabel');
   var gaugeArc = document.getElementById('gaugeArc');
+  var needleG = document.getElementById('needleG');
+  var gaugeReadout = document.getElementById('gaugeReadout');
   var startBtn = document.getElementById('startBtn');
+  var againBtn = document.getElementById('againBtn');
   var progressNote = document.getElementById('progressNote');
   var errorBox = document.getElementById('errorBox');
   var errorDetail = document.getElementById('errorDetail');
@@ -260,20 +285,47 @@ footer{background:#0f172a;color:#cbd5e1;margin-top:40px}
     setStep('stepUpload', null);
   }
 
-  // Log-scale gauge: 1 Mbps ~ 0%, 1000 Mbps ~ 100%.
+  // Log-scale gauge: 1 Mbps ~ 0%, 1000 Mbps ~ 100%. Moves the arc and the needle.
   function setGauge(mbps) {
     var pct = 0;
     if (mbps > 0) {
       pct = Math.min(100, Math.log10(mbps + 1) / 3 * 100);
     }
-    gaugeArc.style.strokeDashoffset = String(CIRCUMFERENCE * (1 - pct / 100));
+    gaugeArc.style.strokeDashoffset = String(ARC_LEN * (1 - pct / 100));
+    var angle = -135 + pct * 2.7;
+    needleG.setAttribute('transform', 'rotate(' + angle + ' 160 160)');
+    needleG.style.transform = 'rotate(' + angle + 'deg)';
   }
+
+  // Tick marks around the gauge dial (drawn once at load).
+  function buildTicks() {
+    var g = document.getElementById('gaugeTicks');
+    var NS = 'http://www.w3.org/2000/svg';
+    for (var i = 0; i <= 27; i++) {
+      var a = (135 + i * 10) * Math.PI / 180;
+      var major = (i % 9 === 0);
+      var r1 = major ? 148 : 152;
+      var r2 = 160;
+      var line = document.createElementNS(NS, 'line');
+      line.setAttribute('x1', (160 + r1 * Math.cos(a)).toFixed(1));
+      line.setAttribute('y1', (160 + r1 * Math.sin(a)).toFixed(1));
+      line.setAttribute('x2', (160 + r2 * Math.cos(a)).toFixed(1));
+      line.setAttribute('y2', (160 + r2 * Math.sin(a)).toFixed(1));
+      line.setAttribute('class', major ? 'tick major' : 'tick');
+      g.appendChild(line);
+    }
+  }
+  buildTicks();
 
   function showError(message, detail) {
     errorDetail.textContent = detail || '';
     errorBox.style.display = 'block';
     phaseLabel.textContent = 'Test stopped';
     progressNote.textContent = message;
+    setGauge(0);
+    gaugeReadout.hidden = true;
+    startBtn.hidden = false;
+    againBtn.hidden = true;
   }
 
   function hideError() {
@@ -422,7 +474,9 @@ footer{background:#0f172a;color:#cbd5e1;margin-top:40px}
     hideError();
     resetSteps();
     startBtn.disabled = true;
-    startBtn.textContent = 'Testing...';
+    startBtn.hidden = true;
+    againBtn.hidden = true;
+    gaugeReadout.hidden = false;
     pingValue.textContent = '--';
     pingSub.textContent = 'milliseconds';
     downloadValue.textContent = '--';
@@ -433,16 +487,19 @@ footer{background:#0f172a;color:#cbd5e1;margin-top:40px}
     bigUnit.textContent = 'Mbps';
     setGauge(0);
 
+    var ok = false;
     try {
       await runPing();
       var down = await runDownload();
       bigNumber.textContent = fmtMbps(down);
       setGauge(down);
       var up = await runUpload();
-      bigNumber.textContent = fmtMbps(up);
-      setGauge(up);
+      // Headline number stays on the download speed (same as the homepage widget).
+      bigNumber.textContent = fmtMbps(down);
+      setGauge(down);
       phaseLabel.textContent = 'Test complete';
       progressNote.textContent = 'Done. Run the test again any time to compare results.';
+      ok = true;
     } catch (err) {
       showError(
         "We couldn't reach the test servers. Check your connection and try again.",
@@ -451,11 +508,12 @@ footer{background:#0f172a;color:#cbd5e1;margin-top:40px}
     } finally {
       running = false;
       startBtn.disabled = false;
-      startBtn.textContent = 'Test Again';
+      if (ok) { againBtn.hidden = false; }
     }
   }
 
   startBtn.addEventListener('click', runTest);
+  againBtn.addEventListener('click', runTest);
 })();
 </script>
 </body>
